@@ -28,45 +28,43 @@
   </head>
   <body onload="">
     <div class="container">
-      <g:form class="form-inline" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get">
-          <input class="input" style="width: 500px; height: 30px;" type="text" name="q" id="q" value="${params.q}" size="50" placeholder="Origen Destino Fecha" autocomplete="off"/> <input type="submit" class="btn" id="lq" value="Buscar " />
-          <input type="hidden" name="max" value="5"/>
-      </g:form>
-      <div class="row">
-        <div class="span-12">
-          <spam class="label label-warning">${flash.message}</spam>
+      <div class="row-fluid">
+        <div class="span6">
+          <g:form class="form-inline" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get">
+            <div class="row-fluid">
+              <div class="span10">
+                <input type="text" name="q" class="span12" id="q" value="${params.q}" placeholder="Origen Destino Fecha" autocomplete="off"/> 
+              </div>
+              <div class="span2">
+                <button type="submit" class="btn" id="lq">Buscar</button>
+                <input type="hidden" name="max" value="5"/>
+              </div>
+            </div>
+          </g:form>
         </div>
       </div>
-      <g:set var="haveQuery" value="${params.q?.trim()}" />
-      <g:set var="haveResults" value="${searchResult}" />
-
-      <g:if test="${haveResults}">
-        <div class="row">
-          <div class="span-12 results">
-            <g:each var="dato" in="${searchResult}" status="index">
-              <div class="result">
-                <g:set var="nombre" value="${dato.trayecto.toString()}" />
-                <g:set var="infoId" value="${dato.trayecto.id}-${dato.fecha.time}" />
-                <g:set var="link" value="${dato.url}" />
-                <div class="name"><a href="${link}" style="font-size: 14px;">${nombre} ${dato.fecha.format('EEEE dd/MM/yyyy')}</a></div>
-                <div id="infotren${infoId}" class="loading">
-                  <g:formRemote id="form${infoId}" name="form${infoId}" update="infotren${infoId}" url="[action: 'showTren']" >
-                    <input type="hidden" name="trayecto" value="${dato.trayecto.id}" />
-                    <input type="hidden" name="fecha" value="${dato.fecha.format('dd/MM/yyyy')}" />
-                    <input type="hidden" name="infoId" value="${infoId}" />
-                  </g:formRemote>
-                  <script>
-                    $(document).ready(function() {
-                      $('#form${infoId}').submit();
-                    });
-                  </script>
-                </div>
-              </div>
-            </g:each>
-          </div>
+      <g:if test="${flash.message}">
+        <div class="row-fluid">
+            <div class="span12">
+              <spam class="label label-warning">${flash.message}</spam>
+            </div>
         </div>
       </g:if>
+      <div class="row-fluid">
+        <div class="span12 loading" id="trenes">
+        </div>
+      </div>
     </div>
+    <g:formRemote id="formTrenes" name="formTrenes" update="trenes" url="[action: 'trenes']" >
+      <input type="hidden" name="origenes" value="${origenes}" />
+      <input type="hidden" name="destinos" value="${destinos}" />
+      <input type="hidden" name="fechas" value="${fechas}" />
+    </g:formRemote>
+    <script>
+      $(document).ready(function() {
+        $('#formTrenes').submit();
+      });
+    </script>
     <!-- Included Javascript files and other resources -->
     <script type="text/javascript">
 /*    

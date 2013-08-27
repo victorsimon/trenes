@@ -290,7 +290,8 @@ class RenfeService {
 			def data = it.@value.toString() + '|' + it.parent().text().trim().replaceAll(",", ".")
 			//log.info "${it.@id.toString()} ${data}"
 			def tok = data.tokenize('|')
-			trenes.put( "${tok[0]}${tok[9]}", data)
+			trenes.put( "${tok[0]}|${tok[1]}|${tok[9]}|${tok[10]}|${tok[12]}", data)
+			//println "${tok[0]}|${tok[1]}|${tok[9]}|${tok[10]}|${tok[12]}" + " <=> $data"
 		}
 		return trenes
 	}

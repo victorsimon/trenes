@@ -25,11 +25,10 @@ class BuscaController {
     		if (!it.matches(/(?<=^| )(?=[^ ]*\d)[^ ]+/)) {
 		    	//estaciones << searchableService.search("${it} OR ${it}* OR *${it}*".toString(), [max: 6])
                 def e = Estacion.findAllByNombreIlike("%${it.trim()}%", params)
-                println e
                 estaciones << e
 		    } else {
                 try {
-                    fechas << new Date().parse('d/M/y', it).clearTime()
+                    fechas << new Date().parse('d/M/y', it).clearTime().format('dd/MM/yyyy')
                 } catch(e) {
                     flash.message = "$it no parece una fecha válida. Por ejemplo, para introducir como fecha de busqueda el día de hoy, utilice ${new Date().format('d/M/y')}"
                 }
@@ -41,7 +40,19 @@ class BuscaController {
     	}
     	def origenes = estaciones[0]
     	def destinos = estaciones.size() > 1? estaciones[1..-1]: Estacion.findAllByPrincipal(true, params)
-    	def trayectos = renfeService.extraerTrayectos(origenes, destinos)
+
+        return render(view: 'result', model: [origenes: origenes, destinos: destinos, fechas: fechas])
+    }
+
+    def trenes() {
+        if (!params.origenes?.trim()) {
+            return [:]
+        }
+        def origenes = stringToEstacionList(params.origenes)
+        def destinos = stringToEstacionList(params.destinos)
+        def fechas = stringToDateList(params.fechas)
+
+        def trayectos = renfeService.extraerTrayectos(origenes, destinos)
         if (fechas.size() == 0) {
             fechas << new Date().clearTime()
             fechas << new Date().clearTime() + 1
@@ -54,13 +65,33 @@ class BuscaController {
             }
         }
 
+        return render(template: 'trenes', model: [searchResult: datos])
+    }
 
-        return render(view: 'result', model: [searchResult: datos])
+    private stringToEstacionList(String txt) {
+        def l = []
+        txt.replace('[', ' ').replace(']', ' ').tokenize(',').each {
+            if (it.trim())
+                l << Estacion.findByNombreLike("${it.trim()}")
+        }
+        return l
+    }
+
+    private stringToDateList(String txt) {
+        def l = []
+        txt.replace('[', ' ').replace(']', ' ').tokenize(',').each {
+            if (it.trim())
+                l << new Date().parse("dd/MM/yyyy", "${it.trim()}")
+        }
+        return l
     }
 
     def showTren() {
-        [trenes: renfeService.consultarTrenesDisponibles(Trayecto.load(params.trayecto), new Date().parse('dd/MM/yyyy', params.fecha)),
-        infoId: params.infoId]
+        if (!params.trayecto?.trim()) {
+            return [:]
+        }
+        render (template: 'showTren', model: [trenes: renfeService.consultarTrenesDisponibles(Trayecto.load(params.trayecto), new Date().parse('dd/MM/yyyy', params.fecha)),
+        infoId: params.infoId])
     }
 
 }
