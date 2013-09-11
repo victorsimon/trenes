@@ -1,0 +1,10 @@
++ Sugerencias de estaciones similares
++ Redireccion de la página de entrada a busqueda
++ Reducir el tamaño de los link
+- Filtrar los resultados de la busqueda
+- Personalizar errores HTTP
+- Palabras SEO (Renfe, AVE, Horario renfe, tren)
+- Llamar a todo treneris
++ Aceptar - en la fecha
++ Aceptar semantica de fechas
+- Retirar el plugin de kickstart

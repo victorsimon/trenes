@@ -1,7 +1,7 @@
 <%@ page defaultCodec="html" %>
-<html>
+<html lang="es" class="no-js">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Trengle</title>
     <style type="text/css">
@@ -17,26 +17,30 @@
     </script>
     <r:require modules="jquery"/>
     <r:require modules="bootstrap"/>
-
+    <script src="path/to/jquery.cookie.js"></script>
     <r:layoutResources />
     <script type="text/javascript" src="../js/jquery.suggest.js" ></script>
   </head>
   <body onload="focusQueryInput();">
     <div class="row-fluid">
-        <div style="height: 231px;" class="span12">
-          ${flash.message}
+        <div class="span12">
+          <div style="height: 81px;" class="span12">
+          </div>
+          <center>
+            <r:img dir="images" file="tren.jpg" alt="Nombre" style="height: 150px;" />
+          </center>
         </div>
     </div>
     <div class="row-fluid">
         <div class="span12">
-          <g:form class="form-horizontal" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get">
+          <g:form class="form-horizontal" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
             <div class="row-fluid">
               <div class="span8 offset2">
                 <input class="input text-left" style="width: 100%; height: 30px;" type="text" name="q" id="q" value="${params.q}" size="50" placeholder="Origen Destino Fecha" autocomplete="off"/> 
                 <div class="row-fluid" style="margin-top: 10px;">            
                   <div class="span2 offset5">
                     <center>
-                      <input type="submit" id="lq" class="btn" value="Buscar " />
+                      <input type="submit" id="lq" class="btn" value="Buscar" onclick=""/>
                       <input type="hidden" name="max" value="5"/>
                     </center>
                   </div>

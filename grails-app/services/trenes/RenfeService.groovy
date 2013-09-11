@@ -65,7 +65,7 @@ class RenfeService {
 				List<ConsultaRenfe> trenes = []
 
 				trenesProgramados.eachWithIndex() { t, i ->
-					ConsultaRenfe tmp = convertirLineasEnTrenes(t.value, salida, trayecto)
+					ConsultaRenfe tmp = convertirLineasEnTrenes(t.value, salida, trayecto.id)
 					if (tmp) trenes.add(tmp)
 				}
 				marcarTrenesObsoletos(salida, trayecto, trenes)
@@ -77,20 +77,21 @@ class RenfeService {
     	new EstadoTarea(tarea: "extraerTrenesDisponiblesPorDia", info: "Fin ${new Date().format('dd/MM/yyyy HH:mm.s')}").save(flush: true)
 	}
 
-	def consultarTrenesDisponibles(Trayecto trayecto, Date salida) {
+	def consultarTrenesDisponibles(tId, Date salida) {
+		def trayecto = Trayecto.read(tId)
 		def cookieSession = extraerCookieSession()
 		def List<ConsultaRenfe> trenesDisponiblesDia = []
 		def URLconsulta = componerURL(trayecto, salida)
 		def URLConnection conexion = conectarConCookieSession(URLconsulta, cookieSession)
-		def contenidoLimpio = limpiarContenido(conexion.content.text)
+		def contenidoLimpio = conexion.content.text
+		contenidoLimpio = contenidoLimpio.replaceAll(/id\s=\s"longHoy"\s+value="\d+"|"Clase.Ljava.lang.String;@.+">/, '"C">')
 		def Map<String, String> trenesProgramados = extraerTrenes(contenidoLimpio)
 		List<ConsultaRenfe> trenes = []
 
 		trenesProgramados.eachWithIndex() { t, i ->
-			ConsultaRenfe tmp = convertirLineasEnTrenes(t.value, salida, trayecto)
+			ConsultaRenfe tmp = convertirLineasEnTrenes(t.value, salida, trayecto.id)
 			if (tmp) trenes.add(tmp)
 		}
-
 		return trenes
 	}
 
@@ -158,9 +159,9 @@ class RenfeService {
 	}
 
 	def extraerTrayectos(List origenes, List destinos) {
-    	new EstadoTarea(tarea: "extraerTrayectos ${origenes[0]}...", info: "Inicio ${new Date().format('dd/MM/yyyy HH:mm.s')}").save(flush: true)
 		def cookie = extraerCookieSession()
-		def trayectos = []
+		def tmp = [], nuevos = []
+		def trayectos = [], tmpTrayectos = []
 
 		origenes.each { origen ->
 			destinos.each { destino ->
@@ -168,20 +169,48 @@ class RenfeService {
 					if (origen != otra) {
 						def o = Estacion.get(origen.id)
 						def d = Estacion.get(otra.id)
-						def t = Trayecto.findByOrigenAndDestino(o, d) 
-						if (!t) {
-							def trayecto = new Trayecto(origen: o, destino: d)
-							if (comprobarTrayecto(trayecto, cookie)) {
-								trayectos << trayecto.save(flush: true)
-							}
-						} else {
-							trayectos << t
-						}
+						def trayecto = new Trayecto(origen: o, destino: d)
+						def existe = false
+						if (Trayecto.findByOrigenAndDestino(o, d))
+							existe = true
+						tmp << [o: o.id, d: d.id, existe: existe]
 					}
 				}
 			}
 		}
-    	new EstadoTarea(tarea: "extraerTrayecto ${origenes[0]}...", info: "Fin ${new Date().format('dd/MM/yyyy HH:mm.s')}").save(flush: true)
+
+		withPool {
+			tmp.findAllParallel { 
+				if (!it.existe) {
+					def o = Estacion.read(it.o)
+					def d = Estacion.read(it.d)
+					def trayecto = new Trayecto(origen: o, destino: d)
+					if (comprobarTrayecto(trayecto, cookie)) {
+						nuevos << trayecto
+						return true
+					} else {
+						return false
+					}
+				} else {
+					return true
+				}
+			}.collectParallel {
+				tmpTrayectos << it
+			}
+		}
+
+		nuevos.each {
+			trayectos << it.save()
+		}
+
+		tmpTrayectos.each {
+			if (it.existe) {
+				def o = Estacion.get(origen.id)
+				def d = Estacion.get(otra.id)
+				trayectos << Trayecto.findByOrigenAndDestino(o, d)
+			}
+
+		}		
     	return trayectos
 	}
 
@@ -200,8 +229,8 @@ class RenfeService {
 		}
 		if (!html)
 			return false
-		def contenido = limpiarContenido(html)
-		def directo = comprobarConexionDirecto(contenido)
+		//def contenido = limpiarContenido(html)
+		def directo = comprobarConexionDirecto(html)
 		return directo
 	}
 	
@@ -209,7 +238,7 @@ class RenfeService {
 	* Metodos privados
 	*/
 
-	public ConsultaRenfe convertirLineasEnTrenes(String source, Date fecha, Trayecto trayecto) {
+	public ConsultaRenfe convertirLineasEnTrenes(String source, Date fecha, tId) {
 		def trenProgramado = source.split ("\\|")
 		def horaSalida = setHora(fecha, trenProgramado[7].split("\\.")[0],
 				trenProgramado[7].split("\\.")[1])
@@ -219,13 +248,14 @@ class RenfeService {
 			horaLlegada = horaLlegada + 1
 
 		//log.info "source $source"
-		trayecto = Trayecto.get(trayecto.id)
+		def trayecto = Trayecto.get(tId)
 		def clase = Clase.findByCodigo(trenProgramado[0])?: new Clase(nombre: trenProgramado[11], codigo: trenProgramado[0]).save(flush: true)
 		def tren = Tren.findByTipoAndNumero(trenProgramado[4], trenProgramado[1])?: new Tren(tipo: trenProgramado[4], numero: trenProgramado[1]).save(flush: true)
 		def tarifa = Tarifa.findByCodigo(trenProgramado[9])?: new Tarifa(nombre: trenProgramado[9], codigo: trenProgramado[9]).save(flush: true)
-		def consultaRenfe = ConsultaRenfe.findByRawData(source) 
+		//def consultaRenfe = ConsultaRenfe.findByRawData(source) 
 		//log.info consultaRenfe
-		if (!consultaRenfe) {
+		//if (!consultaRenfe) {
+		def consultaRenfe
 			try {
 				consultaRenfe = new ConsultaRenfe(
 					clase: clase,
@@ -239,27 +269,27 @@ class RenfeService {
 					noValido: false,
 					rawData: source
 					)
-				if (!consultaRenfe.save(flush: true)) {
+				/*if (!consultaRenfe.save(flush: true)) {
 					consultaRenfe.errors.each {
 						log.error it
 					}
-				}
+				}*/
 			} catch(e) {
 				log.error "$source produjo un error"
 				log.error "$e"
 				log.error "${e.getStackTrace()}"
 			}
-		} else {
+		/*} else {
 			consultaRenfe.noValido = false
 			consultaRenfe.save(flush: true)
-		}
+		}*/
 		return consultaRenfe
 	}
 	
 	private String limpiarContenido(String content) {
 		//content = content.replaceAll(/<!DOCTYPE.+>/, "<!DOCTYPE html>")
-		content = content.replaceAll(/id\s=\s"longHoy"\s+value="\d+"/, "COCODRILO")
-		content = content.replaceAll(/"Clase.Ljava.lang.String;@.+">/, '"COCODRILO">')
+		content = content.replaceAll(/id\s=\s"longHoy"\s+value="\d+"/, "C")
+		content = content.replaceAll(/"Clase.Ljava.lang.String;@.+">/, '"C">')
 		return content
 	}
 	
@@ -287,7 +317,8 @@ class RenfeService {
 
 		def Map<String, String> trenes = [:]
 		htmlParser.'**'.findAll { it.@id.toString() ==~ /trenClaseOcupacion[0-9]+/ }.each {
-			def data = it.@value.toString() + '|' + it.parent().text().trim().replaceAll(",", ".")
+			def precio = "0${it.parent().text().trim().replaceAll(",", ".")}".toBigDecimal()
+			def data = it.@value.toString() + '|' + precio
 			//log.info "${it.@id.toString()} ${data}"
 			def tok = data.tokenize('|')
 			trenes.put( "${tok[0]}|${tok[1]}|${tok[9]}|${tok[10]}|${tok[12]}", data)
@@ -297,13 +328,14 @@ class RenfeService {
 	}
 
 	private Boolean comprobarConexionDirecto(String busqueda) {
-		def parser = new SAXParser()
+		def error = busqueda.contains(/NOtitulo_ida_full1/)
+		/*def parser = new SAXParser()
 		parser.setFeature("http://xml.org/sax/features/namespaces", false);
 		def slurper = new XmlSlurper(parser)
 		def htmlParser = slurper.parseText(busqueda)
 
 		def error = htmlParser.'**'.find { it.@class.toString() ==~ /NOtitulo_ida_full1/ }
-		//log.debug "comprobarConexionDirecto -> $error"
+		//log.debug "comprobarConexionDirecto -> $error"*/
 		return error? false: true
 	}
 
@@ -314,7 +346,7 @@ class RenfeService {
 		return busqueda
 	}
 
-	private List extraerCookieSession() {
+	public List extraerCookieSession() {
 		def inicio = "https://venta.renfe.com/vol/index.do".toURL().openConnection()
 		def cookie
 		inicio.getHeaderFields().each {

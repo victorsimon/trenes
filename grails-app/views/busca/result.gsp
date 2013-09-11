@@ -1,7 +1,7 @@
 <%@ page defaultCodec="html" %>
-<html>
+<html lang="es" class="no-js">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Trengle</title>
     <style type="text/css">
@@ -9,7 +9,7 @@
         margin-top: 20px;
       }
       .loading {
-        background: url(../images/spinner.gif) 50% 50% no-repeat transparent;
+        background: url(../images/spinner.gif) 1% 50% no-repeat transparent;
         height: 16px;
         width: 16px;
         padding: 0.5em 20px;
@@ -23,23 +23,18 @@
     </script>
     <r:require modules="jquery"/>
     <r:require modules="bootstrap"/>
-
     <r:layoutResources />
   </head>
   <body onload="">
     <div class="container">
       <div class="row-fluid">
         <div class="span6">
-          <g:form class="form-inline" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get">
-            <div class="row-fluid">
-              <div class="span10">
-                <input type="text" name="q" class="span12" id="q" value="${params.q}" placeholder="Origen Destino Fecha" autocomplete="off"/> 
-              </div>
-              <div class="span2">
-                <button type="submit" class="btn" id="lq">Buscar</button>
-                <input type="hidden" name="max" value="5"/>
-              </div>
+          <g:form class="form-inline" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
+            <div class="input-append span12">
+              <input type="text" name="q" id="q" class="span12" value="${params.q}" placeholder="Origen Destino Fecha" autocomplete="off"/> 
+              <button type="submit" class="btn btn-secundary" id="lq"><i class="icon-search"></i> Buscar</button>
             </div>
+            <input type="hidden" name="max" value="5"/>
           </g:form>
         </div>
       </div>
@@ -60,9 +55,14 @@
       <input type="hidden" name="destinos" value="${destinos}" />
       <input type="hidden" name="fechas" value="${fechas}" />
     </g:formRemote>
+    <iframe id="setcookie" src="https://venta.renfe.com/vol/index.do" style="display: none;">
+    </iframe>
     <script>
       $(document).ready(function() {
         $('#formTrenes').submit();
+      });
+      $('#setcookie').ready(function() {
+        $('#setcookie').remove();
       });
     </script>
     <!-- Included Javascript files and other resources -->

@@ -5,7 +5,7 @@ dataSource {
     password = ""
 }
 hibernate {
-    cache.use_second_level_cache = true
+    //cache.use_second_level_cache = true
     cache.use_query_cache = false
     cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory'
 }
@@ -29,9 +29,22 @@ environments {
             username = "vsimon_trenes"
             password = "sk3514"
             dbCreate = "update"
-            url = "jdbc:mysql://compartirmesadetren.com:3306/vsimon_trenes?autoreconnect=true"
+            url = "jdbc:mysql://compartirmesadetren.com:3306/vsimon_trenes?useUnicode=true&characterEncoding=UTF-8"
             autoreconnect = true
             pooled = true
+            properties {
+                maxActive = 20
+                maxIdle = 1
+                minIdle = 1
+                initialSize = 1
+                minEvictableIdleTimeMillis = 10000
+                timeBetweenEvictionRunsMillis = 10000
+                validationQuery = "SELECT 1"
+                testOnBorrow=true
+                testOnReturn=true
+                testWhileIdle=true
+                maxWait=-1
+            }
         }
     }
 }

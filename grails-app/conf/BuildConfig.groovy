@@ -70,10 +70,13 @@ grails.project.dependency.resolution = {
         compile ':cache:1.1.1'
 
         //Especificos
-        compile (":kickstart-with-bootstrap:0.9.6") {
+        /*compile (":kickstart-with-bootstrap:0.9.6") {
             exclude "resources"
             exclude "jquery"
-        }
+        }*/
+        compile ":lesscss-resources:1.3.3"
+        compile ":font-awesome-resources:3.2.1.2"
+        
         compile ":quartz:1.0-RC9"
         compile ":quartz-monitor:0.3-RC2"
         compile ":gpars:0.3"

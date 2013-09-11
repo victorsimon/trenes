@@ -1,5 +1,5 @@
 <g:if test="${trenes.size() > 0}">
-<table class="table table-condensed" style="font-size: 11px;">
+<table class="table table-condensed" style="font-size: 10px;">
   <thead>
     <tr><th></th><th>Salida</th><th>llegada</th><th>Precio</th><th>Tarifa</th></tr>
   </thead>
@@ -9,7 +9,7 @@
     <g:if test="${tren.precio.toBigDecimal() <= precio.toBigDecimal() && tren.tarifa.codigo != 'GL544'}">
       <g:set var="precio" value="${tren.precio}" />
     </g:if>
-    <tr class="${tren.precio.replace('.','_')}">
+    <tr class="${tren.precio.replace('.','_')} ${tren.tarifa.codigo}">
       <td>
         <g:if test="${lastHora != tren.tren.tipo + '-' + tren.tren.numero + tren.salida.format('HH:mm')}">
           ${tren.tren.tipo}-${tren.tren.numero}</td>
@@ -24,7 +24,7 @@
           ${tren.llegada.format('HH:mm')}
         </g:if>
       </td>
-      <td class="${tren.tarifa.codigo}">${tren.precio}€</td>
+      <td>${tren.precio}€</td>
       <td>${tren.tarifa.nombre} ${tren.clase.nombre}</td>
     </tr>
     <g:set var="lastHora" value="${tren.tren.tipo + '-' + tren.tren.numero + tren.salida.format('HH:mm')}"/>
