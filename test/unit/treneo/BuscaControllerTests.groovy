@@ -1,4 +1,4 @@
-package trenes
+package treneo
 
 
 
@@ -8,8 +8,8 @@ import org.junit.*
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(ControlController)
-class ControlControllerTests {
+@TestFor(BuscaController)
+class BuscaControllerTests {
 
     void testSomething() {
        fail "Implement me"

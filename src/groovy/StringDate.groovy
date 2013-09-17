@@ -1,9 +1,9 @@
-package trenes
+package treneo
 
 class StringDate {
 
 	def static String convertToDate(String txt) {
-		txt = " " + txt.toLowerCase()
+		txt = " " + txt.toLowerCase() + " "
 		txt = txt.replace(' la ', ' ')
 		txt = txt.replace(' el ', ' ')
 		txt = txt.replace(' que ', ' ')
@@ -13,6 +13,10 @@ class StringDate {
 		txt = txt.replace(' desde ', ' ')
 		txt = txt.replace(' hasta ', ' ')
 
+		if (txt.contains(' hoy ')){
+			def nueva = ' ' + new Date().format('dd/MM/yyyy') + ' '
+			return txt.replace(' hoy ', nueva)
+		}
 		if (txt.contains('pasado mañana')){
 			def nueva = (new Date() + 2).format('dd/MM/yyyy')
 			return txt.replace('pasado mañana', nueva)

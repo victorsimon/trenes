@@ -1,4 +1,4 @@
-package trenes
+package treneo
 
 class Levenshtein {
   def static int distance(String str1, String str2) {

@@ -1,4 +1,4 @@
-package trenes
+package treneo
 //import org.compass.core.engine.SearchEngineQueryParseException
 
 import grails.util.Environment
@@ -14,8 +14,10 @@ class BuscaController {
      * Index page with search form and results
      */
     def index() {
+        def fonts = ["font-family: Sue Ellen Francisco, cursive;","font-family: Duru Sans, sans-serif;","font-family: Quicksand, sans-serif;","font-family: Oleo Script Swash Caps, cursive;","font-family: Vast Shadow, cursive;","font-family: Smokum, cursive;","font-family: Montserrat Alternates, sans-serif;","font-family: Shojumaru, cursive;","font-family: Peralta, cursive;","font-family: Prosto One, cursive;","font-family: Kavoon, cursive;","font-family: Bubbler One, sans-serif;","font-family: Ceviche One, cursive;","font-family: Ribeye Marrow, cursive;"]
+
         if (!params.q?.trim()) {
-            return [:]
+            return [fonts: fonts]
         }
 
         Environment.executeForCurrentEnvironment {
@@ -29,11 +31,13 @@ class BuscaController {
         }
         //Procesamos la cadena buscada
         def contenido = interpretar(params.q)
+        if (!contenido)
+            return [:]
 
     	def origenes = contenido.estaciones[0]
     	def destinos = contenido.estaciones.size() > 1? contenido.estaciones[1..-1]: Estacion.findAllByPrincipal(true, params)
 
-        return render(view: 'result', model: [origenes: origenes, destinos: destinos, fechas: contenido.fechas])
+        return render(view: 'result', model: [origenes: origenes, destinos: destinos, fechas: contenido.fechas, fonts: fonts])
     }
 
     def trenes() {
@@ -65,7 +69,8 @@ class BuscaController {
         if (!params.trayecto?.trim()) {
             return [:]
         }
-        render (template: 'showTren', model: [trenes: renfeService.consultarTrenesDisponibles(params.trayecto, new Date().parse('dd/MM/yyyy', params.fecha)),
+        def trenes = renfeService.consultarTrenesDisponibles(params.trayecto, new Date().parse('dd/MM/yyyy', params.fecha))
+        render (template: 'showTren', model: [trenes: trenes,
         infoId: params.infoId])
     }
 
@@ -79,8 +84,19 @@ class BuscaController {
         palabras.each {
             if (!it.matches(/(?<=^| )(?=[^ ]*\d)[^ ]+/)) { //palabras
                 def e = Estacion.findAllByNombreIlike("%${it.trim()}%", [max: 10])
-                if (e)
-                    estaciones << e
+                if (e) {
+                    def generico
+                    e.each {
+                        if (!generico) {
+                            if (it.nombre.contains('(*)'))
+                                generico = it
+                        }
+                    }
+                    if (generico) 
+                        estaciones << generico
+                    else
+                        estaciones << e
+                }
                 else {
                     def min = 100
                     Estacion.list().each { estacion ->
@@ -92,6 +108,7 @@ class BuscaController {
                             }
                         }
                     }
+                    
                     estaciones << e
                 }
             } else { //tiene números
@@ -107,6 +124,9 @@ class BuscaController {
                 }
             }
         }
+        
+        if (estaciones.size == 0)
+            return null
         [estaciones: estaciones, fechas: fechas]
     }
 }

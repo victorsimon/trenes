@@ -1,13 +1,23 @@
-package trenes
+package treneo
 
 /**
- * Tarifa
+ * Estacion
  * A domain class describes the data object and it's mapping to the database
  */
-class Tarifa {
+class Estacion {
+
+	/*static searchable = {
+		spellCheck "include"
+		only = 'nombre'
+	}*/
 
 	String nombre
+	String codigoInternacional
 	String codigo
+	String codigoAlt
+	Boolean principal = false
+	Boolean buscaprecio = false
+
 	/* Default (injected) attributes of GORM */
 //	Long	id
 //	Long	version
@@ -26,13 +36,37 @@ class Tarifa {
     
 	static constraints = {
 		nombre()
+		codigoInternacional()
 		codigo()
+		codigoAlt()
+		principal()
+    }
+
+    Estacion(List datos) {
+    	nombre = datos[0]
+    	def codigos = datos[1].tokenize(',')
+    	codigoInternacional = codigos[0]
+    	codigo = codigos[1]
+    	codigoAlt = codigos[2]
     }
 	
 	/*
 	 * Methods of the Domain Class
 	 */
+
 	public String toString() {
-		return "$nombre $codigo";
+		return "${nombre}";
+	}
+
+	boolean equals (Object other) {
+		if (null == other) return false
+		if (! (other instanceof Estacion)) return false
+		if (nombre != other.nombre) return false
+		if (codigo != other.codigo) return false
+		return true
+	}
+
+	int hashCode() {
+		nombre.hashCode() + codigo.hashCode()
 	}
 }

@@ -1,13 +1,13 @@
-package trenes
+package treneo
 
 /**
- * Clase
+ * Trayecto
  * A domain class describes the data object and it's mapping to the database
  */
-class Clase {
+class Trayecto {
 
-	String nombre
-	String codigo
+	Estacion origen
+	Estacion destino
 
 	/* Default (injected) attributes of GORM */
 //	Long	id
@@ -26,14 +26,14 @@ class Clase {
     }
     
 	static constraints = {
-		nombre()
-		codigo()
+		origen()
+		destino()
     }
 	
 	/*
 	 * Methods of the Domain Class
 	 */
 	public String toString() {
-		return "$nombre";
+		return "$origen - $destino";
 	}
 }

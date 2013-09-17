@@ -1,4 +1,4 @@
-package trenes
+package treneo
 
 class StringMetric {
 

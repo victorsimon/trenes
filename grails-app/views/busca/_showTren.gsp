@@ -9,7 +9,7 @@
     <g:if test="${tren.precio.toBigDecimal() <= precio.toBigDecimal() && tren.tarifa.codigo != 'GL544'}">
       <g:set var="precio" value="${tren.precio}" />
     </g:if>
-    <tr class="${tren.precio.replace('.','_')} ${tren.tarifa.codigo}">
+    <tr class="${tren.precio.replace('.','_')}_${infoId} ${tren.tarifa.codigo} ${tren.clase.nombre.replace(' ', '_').replace('.', '_')} ${tren.salida.format('HHmm').toInteger() > 1200?'tarde': 'manana'}">
       <td>
         <g:if test="${lastHora != tren.tren.tipo + '-' + tren.tren.numero + tren.salida.format('HH:mm')}">
           ${tren.tren.tipo}-${tren.tren.numero}</td>
@@ -31,7 +31,7 @@
   </g:each>
   <script type="text/javascript">
     $(document).ready(function() {
-      $('.${precio.replace('.','_')}').addClass('success');
+      $('.${precio.replace('.','_')}_${infoId}').addClass('success');
       $('.GL544').removeClass('success');
     });
   </script>

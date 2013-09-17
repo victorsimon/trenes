@@ -1,4 +1,4 @@
-package trenes
+package treneo
 
 import org.cyberneko.html.parsers.SAXParser
 import groovyx.gpars.GParsPool
@@ -7,6 +7,7 @@ import org.hibernate.ScrollableResults
 import org.hibernate.ScrollMode
 import org.hibernate.StatelessSession
 import org.hibernate.Transaction
+import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * RenfeService
@@ -160,8 +161,10 @@ class RenfeService {
 
 	def extraerTrayectos(List origenes, List destinos) {
 		def cookie = extraerCookieSession()
-		def tmp = [], nuevos = []
-		def trayectos = [], tmpTrayectos = []
+		def tmp = []
+		def nuevos = new LinkedBlockingQueue()
+		def trayectos = []
+		def tmpTrayectos = new LinkedBlockingQueue()
 
 		origenes.each { origen ->
 			destinos.each { destino ->
@@ -205,8 +208,8 @@ class RenfeService {
 
 		tmpTrayectos.each {
 			if (it.existe) {
-				def o = Estacion.get(origen.id)
-				def d = Estacion.get(otra.id)
+				def o = Estacion.get(it.o)
+				def d = Estacion.get(it.d)
 				trayectos << Trayecto.findByOrigenAndDestino(o, d)
 			}
 
@@ -249,9 +252,9 @@ class RenfeService {
 
 		//log.info "source $source"
 		def trayecto = Trayecto.get(tId)
-		def clase = Clase.findByCodigo(trenProgramado[0])?: new Clase(nombre: trenProgramado[11], codigo: trenProgramado[0]).save(flush: true)
-		def tren = Tren.findByTipoAndNumero(trenProgramado[4], trenProgramado[1])?: new Tren(tipo: trenProgramado[4], numero: trenProgramado[1]).save(flush: true)
-		def tarifa = Tarifa.findByCodigo(trenProgramado[9])?: new Tarifa(nombre: trenProgramado[9], codigo: trenProgramado[9]).save(flush: true)
+		def clase = Clase.findByCodigo(trenProgramado[0].trim())?: new Clase(nombre: trenProgramado[11].trim(), codigo: trenProgramado[0].trim()).save(flush: true)
+		def tren = Tren.findByTipoAndNumero(trenProgramado[4].trim(), trenProgramado[1].trim())?: new Tren(tipo: trenProgramado[4].trim(), numero: trenProgramado[1].trim()).save(flush: true)
+		def tarifa = Tarifa.findByCodigo(trenProgramado[9].trim())?: new Tarifa(nombre: trenProgramado[9].trim(), codigo: trenProgramado[9].trim()).save(flush: true)
 		//def consultaRenfe = ConsultaRenfe.findByRawData(source) 
 		//log.info consultaRenfe
 		//if (!consultaRenfe) {

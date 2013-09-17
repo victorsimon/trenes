@@ -97,7 +97,3 @@ log4j = {
 
     info  'grails.app'
 }
-
-grails.config.defaults.locations = [KickstartResources]
-
-quartz.monitor.layout = 'kickstart'
