@@ -26,10 +26,10 @@ environments {
     production {
         dataSource {
             driverClassName = "com.mysql.jdbc.Driver"
-            username = "vsimon_trenes"
+            username = "treneo"
             password = "sk3514"
             dbCreate = "update"
-            url = "jdbc:mysql://compartirmesadetren.com:3306/vsimon_trenes?useUnicode=true&characterEncoding=UTF-8"
+            url = "jdbc:mysql://localhost:3306/treneo?useUnicode=true&characterEncoding=UTF-8"
             autoreconnect = true
             pooled = true
             properties {
