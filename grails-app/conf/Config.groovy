@@ -72,6 +72,11 @@ environments {
     production {
         grails.logging.jul.usebridge = false
         // TODO: grails.serverURL = "http://www.changeme.com"
+
+	//DBConsole
+	grails.serverURL = "http://www.treneo.es"
+	grails.dbconsole.enabled = true
+	grails.dbconsole.urlRoot = "/admin/dbconsole"
     }
 }
 

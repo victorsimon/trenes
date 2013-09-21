@@ -33,17 +33,14 @@ environments {
             autoreconnect = true
             pooled = true
             properties {
-                maxActive = 20
-                maxIdle = 1
-                minIdle = 1
-                initialSize = 1
-                minEvictableIdleTimeMillis = 10000
-                timeBetweenEvictionRunsMillis = 10000
+                maxActive = 50
+                maxIdle = 25
+                minIdle = 5
+                initialSize = 5
+                minEvictableIdleTimeMillis = 60000
+                timeBetweenEvictionRunsMillis = 60000
                 validationQuery = "SELECT 1"
-                testOnBorrow=true
-                testOnReturn=true
-                testWhileIdle=true
-                maxWait=-1
+                maxWait=-10000
             }
         }
     }
