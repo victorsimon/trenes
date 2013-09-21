@@ -26,7 +26,7 @@ environments {
     production {
         dataSource {
             driverClassName = "com.mysql.jdbc.Driver"
-            username = "treneo"
+            username = "vsimon"
             password = "sk3514"
             dbCreate = "update"
             url = "jdbc:mysql://localhost:3306/treneo?useUnicode=true&characterEncoding=UTF-8"
