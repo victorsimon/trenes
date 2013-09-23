@@ -37,23 +37,31 @@ class BuscaController {
     	def origenes = contenido.estaciones[0]
     	def destinos = contenido.estaciones.size() > 1? contenido.estaciones[1..-1]: Estacion.findAllByPrincipal(true, params)
 
-        return render(view: 'result', model: [origenes: origenes, destinos: destinos, fechas: contenido.fechas, fonts: fonts])
+        return render(view: 'result', model: 
+            [origenes: origenes, 
+            destinos: destinos, 
+            fechas: contenido.fechas.date, 
+            dow: contenido.fechas.dow, 
+            fonts: fonts])
     }
 
     def trenes() {
         if (!params.origenes?.trim()) {
             return [:]
         }
+        def slurper = new groovy.json.JsonSlurper()
+
         def origenes = params.origenes.stringToList { Estacion.findByNombreLike("${it.trim()}") }
         def destinos = params.destinos.stringToList { Estacion.findByNombreLike("${it.trim()}") }
-        def fechas = params.fechas.stringToList {new Date().parse('dd/MM/yyyy', it)}
+        def fechas = params.fechas.stringToList { new Date().parse('dd/MM/yyyy',it).clearTime() }
 
         def trayectos = renfeService.extraerTrayectos(origenes, destinos)
 
         if (fechas.size() == 0) {
-            fechas << new Date().clearTime()
-            fechas << new Date().clearTime() + 1
-            fechas << new Date().clearTime() + 2
+            def today = new Date().clearTime()
+            fechas << today
+            fechas << today + 1
+            fechas << today + 2
         }
         def datos = []
         trayectos.each { trayecto ->
@@ -76,12 +84,14 @@ class BuscaController {
 
     private def interpretar(String frase) {
         def estaciones = []
-        def fechas = []
+        def tmpFechas = []
         def palabras = []
 
         frase = StringDate.convertToDate(frase)
         palabras = frase.tokenize()
         palabras.each {
+            if (it.size() < 4)
+                return
             if (!it.matches(/(?<=^| )(?=[^ ]*\d)[^ ]+/)) { //palabras
                 def e = Estacion.findAllByNombreIlike("%${it.trim()}%", [max: 10])
                 if (e) {
@@ -114,7 +124,7 @@ class BuscaController {
             } else { //tiene números
                 it = it.replace('-','/')
                 try {
-                    fechas << new Date().parse('d/M/y', it).clearTime().format('dd/MM/yyyy')
+                    tmpFechas << new Date().parse('d/M/y', it)
                 } catch(e) {
                     flash.message = "$it no parece una fecha válida. Por ejemplo, para introducir como fecha de busqueda el día de hoy, utilice ${new Date().format('d/M/y')}"
                 }
@@ -125,6 +135,12 @@ class BuscaController {
             }
         }
         
+        def fechas = [date:[], dow:[]]
+        tmpFechas.sort().each {
+            fechas.date << it.clearTime().format('dd/MM/yyyy')
+            fechas.dow << it.getAt(Calendar.DAY_OF_WEEK)
+        }
+
         if (estaciones.size == 0)
             return null
         [estaciones: estaciones, fechas: fechas]

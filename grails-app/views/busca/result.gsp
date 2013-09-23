@@ -102,15 +102,43 @@
                   <div class="accordion-body collapse" id="filtro-destinos">
                     <div class="accordion-inner">
                       <g:each var="destino" in="${destinos}">
-                        <button type="button" class="btn btn-small btn-destino" data-toggle="button">${destino instanceof List?destino[0]: destino }</button>
+                        <button type="button" class="btn btn-mini btn-destino" data-toggle="button">${destino instanceof List?destino[0]: destino }</button>
                       </g:each>
                     </div>
                   </div>
                   <div class="accordion-body collapse" id="filtro-fechas">
                     <div class="accordion-inner">
-                      <g:each var="fecha" in="${fechas}">
-                        <button type="button" class="btn btn-small btn-fecha" data-toggle="button">${fecha}</button>
-                      </g:each>
+                      <div class="row-fluid">
+                        <div class="span6">
+                          <div class="row-fluid">
+                            <label class="span3">Lunes</label><label class="span3">Martes</label><label class="span3">Miércoles</label><label class="span3">Jueves</label>
+                          </div>
+                        </div>
+                        <div class="span6" style="margin-left: 9px;">
+                          <div class="row-fluid">
+                            <label class="span3">Viernes</label><label class="span3">Sábado</label><label class="span3">Domingo</label><label class="span3"></label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row-fluid">
+                        <div class="span6">
+                          <div class="row-fluid">
+                            <g:each var="fecha" in="${fechas}" status="i">
+                              <g:if test="${dow[i] == 6}">
+                                </div></div>
+                                <div class="span6" style="margin-left: 9px;"><div class="row-fluid">                                
+                              </g:if>
+                              <div class="span3 ${i == 0 || dow[i] % 7 == 2?'offset'+(dow[i]-2)*3:''}">
+                                <button type="button" class="btn btn-small btn-fecha" data-toggle="button">${fecha}</button>
+                              </div>
+                              <g:if test="${dow[i] % 7 == 1}">
+                                </div></div></div>
+                                <div class="row-fluid"><div class="span6"><div class="row-fluid">
+                              </g:if>
+                            </g:each>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="accordion-body collapse" id="filtro-clase">
@@ -287,6 +315,7 @@
       });
 */
     </script>
+    <g:render template="/layouts/analitycstracking"/>
     <r:layoutResources />
   </body>
 </html>
