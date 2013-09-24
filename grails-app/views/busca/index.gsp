@@ -50,7 +50,6 @@
                   <div class="span2 offset5">
                     <center>
                       <input type="submit" id="lq" class="btn" value="Buscar" onclick=""/>
-                      <input type="hidden" name="max" value="5"/>
                     </center>
                   </div>
                 </div>
@@ -80,6 +79,35 @@
             <h5>Prueba con 'próxima semana', 'mes que viene', 'agosto', 'esta semana', etc. Si no lo reconocemos, siempre puedes ponernos la fecha exacta (para hoy es '${new Date().format('dd/MM/yyyy')}')</h5>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span4 columns">
+        <g:set var="origen" value="madrid"/>
+        <g:set var="destinos" value="${['barcelona','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
+        <ul>
+          <g:each var="destino" in="${destinos}">
+            <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Tren ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+          </g:each>
+        </ul>
+      </div>
+      <div class="span4 columns">
+        <g:set var="origen" value="barcelona"/>
+        <g:set var="destinos" value="${['madrid','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
+        <ul>
+          <g:each var="destino" in="${destinos}">
+            <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Tren ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+          </g:each>
+        </ul>
+      </div>
+      <div class="span4 columns">
+        <g:set var="origen" value="sevilla"/>
+        <g:set var="destinos" value="${['madrid','barcelona','valencia','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
+        <ul>
+          <g:each var="destino" in="${destinos}">
+            <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Tren ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+          </g:each>
+        </ul>
       </div>
     </div>
     <script type="text/javascript">

@@ -42,7 +42,8 @@ class BuscaController {
             destinos: destinos, 
             fechas: contenido.fechas.date, 
             dow: contenido.fechas.dow, 
-            fonts: fonts])
+            fonts: fonts,
+            nojs: params.nojs])
     }
 
     def trenes() {
@@ -53,7 +54,7 @@ class BuscaController {
 
         def origenes = params.origenes.stringToList { Estacion.findByNombreLike("${it.trim()}") }
         def destinos = params.destinos.stringToList { Estacion.findByNombreLike("${it.trim()}") }
-        def fechas = params.fechas.stringToList { new Date().parse('dd/MM/yyyy',it).clearTime() }
+        def fechas = params.fechas?.stringToList { new Date().parse('dd/MM/yyyy',it).clearTime() }?:[]
 
         def trayectos = renfeService.extraerTrayectos(origenes, destinos)
 
@@ -70,7 +71,7 @@ class BuscaController {
             }
         }
 
-        return render(template: 'trenes', model: [searchResult: datos])
+        return render(template: 'trenes', model: [searchResult: datos, nojs: params.nojs?:'false'])
     }
 
     def showTren() {
@@ -79,7 +80,7 @@ class BuscaController {
         }
         def trenes = renfeService.consultarTrenesDisponibles(params.trayecto, new Date().parse('dd/MM/yyyy', params.fecha))
         render (template: 'showTren', model: [trenes: trenes,
-        infoId: params.infoId])
+        infoId: params.infoId, nojs: params.nojs?:'false'])
     }
 
     private def interpretar(String frase) {

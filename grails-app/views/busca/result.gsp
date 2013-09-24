@@ -52,7 +52,6 @@
                   </div>
                 </div>
               </div>
-              <input type="hidden" name="max" value="5"/>
             </g:form>
           </div>
           <div class="row-fluid filtros">
@@ -168,6 +167,11 @@
           <div class="row-fluid">
             <div class="span12 loading" id="trenes">
             </div>
+          </div>
+          <div class="row-fluid">
+            <a href="${createLink(action: 'trenes', params: [origenes: origenes, destinos: destinos, fechas: fechas, nojs: true])}" >
+              ¿No te gusta javascript? Pincha aquí
+            </a>
           </div>
         </div>
         <div class="span3 publi">
