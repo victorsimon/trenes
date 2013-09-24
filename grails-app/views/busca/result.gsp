@@ -174,7 +174,8 @@
             </a>
           </div>
         </div>
-        <div class="span3 publi">
+        <div class="span4 publi">
+	  <g:render template="/layouts/sense300x600"/>
         </div>
       </div>
     </div>

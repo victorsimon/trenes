@@ -3,16 +3,16 @@
   <%@page sitemeshPreprocess="false"%>
   <html lang="es" class="no-js">
     <head>
-      <title>Treneo</title>
+      <title>Tren ${trenes[0]?.trayecto} salida ${trenes[0]?.salida.format('dd/MM/yyyy HH:mm')} Treneo</title>
       <meta http-equiv="content-type" content="text/html;charset=UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Treneo</title>
       <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
       <r:require modules="jquery"/>
       <r:require modules="bootstrap"/>
       <r:layoutResources />
     </head>
   <body onload="">
+	<h1>Tren ${trenes[0]?.trayecto} salida ${trenes[0]?.salida.format('dd/MM/yyyy HH:mm')}</h1>
 </g:if>
 <g:if test="${trenes.size() > 0}">
 <table class="table table-condensed" style="font-size: 10px;">

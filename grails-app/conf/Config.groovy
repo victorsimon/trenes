@@ -75,8 +75,8 @@ environments {
 
 	//DBConsole
 	grails.serverURL = "http://www.treneo.es"
-	grails.dbconsole.enabled = true
-	grails.dbconsole.urlRoot = "/admin/dbconsole"
+	//grails.dbconsole.enabled = true
+	//grails.dbconsole.urlRoot = "/admin/dbconsole"
     }
 }
 
