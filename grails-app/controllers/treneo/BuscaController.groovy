@@ -47,7 +47,7 @@ class BuscaController {
     }
 
     def trenes() {
-        if (!params.origenes?.trim()) {
+        if (!params.origenes?) {
             return [:]
         }
         def slurper = new groovy.json.JsonSlurper()
