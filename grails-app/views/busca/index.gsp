@@ -7,111 +7,114 @@
     <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One' rel='stylesheet' type='text/css'>
     <g:set var="colors" value="['#34a5aa', '#aaaaaa', '#4789aa', '#d3e310']"/>
-    <style type="text/css">
-      .typeahead {
-        text-align: left;
-      }
-      .treneo {
-        font-size: 92px;
-        margin-bottom: 50px; 
-        ${fonts[(new java.util.Random()).nextInt(11)]}
-        color: ${colors[(new java.util.Random()).nextInt(4)]};
-      }
-    </style>
     <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
+    <r:require modules="jquery"/>
+    <r:require modules="bootstrap"/>
+    <r:require modules="index"/>
+    <r:layoutResources />
     <script type="text/javascript">
         var focusQueryInput = function() {
             document.getElementById("q").focus();
         }
     </script>
-    <r:require modules="jquery"/>
-    <r:require modules="bootstrap"/>
-    <script src="path/to/jquery.cookie.js"></script>
-    <r:layoutResources />
-    <script type="text/javascript" src="../js/jquery.suggest.js" ></script>
   </head>
   <body onload="focusQueryInput();">
-    <div class="row-fluid">
-        <div class="span12">
-          <div style="height: 81px;" class="span12">
-          </div>
-          <center>
-            <p class="treneo">Treneo</p>
-          </center>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span12">
-          <g:form class="form-horizontal" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
-            <div class="row-fluid">
-              <div class="span8 offset2">
-                <input class="input text-left" style="width: 100%; height: 30px;" type="text" name="q" id="q" value="${params.q}" size="50" placeholder="Origen, destino (o destinos) y fechas ('${new Date().format('dd/MM/yyyy')}' o 'mañana' o 'agosto' o...)" autocomplete="off"/> 
-                <div class="row-fluid" style="margin-top: 10px;">            
-                  <div class="span2 offset5">
-                    <center>
-                      <input type="submit" id="lq" class="btn" value="Buscar" onclick=""/>
-                    </center>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </g:form>
-        </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span8 offset2 text-center">
-        <h3>¡Bienvenido!</h3>
-        <h4>Treneo es un buscador de trenes.</h4>
-        <h6>Si, como otros. El de la propia Renfe por ejemplo. Pero treneo ¡está orientado al usuario! Parece lógico, ¿no? Nosotros pensamos igual, y por eso hemos lanzado un buscador que te sea útil para ti.</h6>
-        <h4 class="text-center">¿Quieres saber cómo? Interpretando lo que buscas.<h4>
+    <div class="block block-search">
+      <h1 class="treneo">Treneo</h1>
+      <g:form url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
+          <p><input class="input-search" type="text" name="q" id="q" value="${params.q}" size="50" placeholder="Origen, destino (o destinos) y fechas ('${new Date().format('dd/MM/yyyy')}' o 'mañana' o 'agosto' o...)" autocomplete="off"/>
+          <br/>
+          <input type="submit" id="lq" class="btn large" value="Buscar" onclick=""/></p>
+          <p>Un buscador de trenes sencillo y práctico</p>
+      </g:form>
+      <p class="meta"> 
+        Por <a href="#">Víctor Simón</a> e <a href="#">Isabel Berruezo</a>
         <br/>
-        <div class="row-fluid">
-          <div class="span6 alert-error">
-            <h4>Te dejamos decidir los destinos que quieres consultar.</h4>
-            <h5>Por que no siempre te importa donde ir, si no solo ir. Si introduces el nombre de mas de dos estaciones, nosotros te daremos la información de los trayectos entre tu origen y todas ellas.</h5>
-            <h5>Por ejemplo, si sales de Madrid y buscas el mejor precio entre ir a Sevilla, Valladolid o Pamplona. Tu búsqueda sería:</h5><h5> 'madrid sevilla valladolid pamplona'</h5>
-            <h5>¿Te gusta?</h5>
-          </div>
-          <div class="span6 alert-success">
-            <h4>Solo dinos cuando, como nos lo digas es igual.</h4>
-            <h5>Aunque no seamos capaces de entenderlo todo, hay cosas que si.</h5>
-            <h5>Si quieres viajar hoy, pues dinos 'hoy'. Y si quieres ver los trenes de mañana, pues pon 'mañana'. Nosotros te entendemos.</h5>
-            <h5>Prueba con 'próxima semana', 'mes que viene', 'agosto', 'esta semana', etc. Si no lo reconocemos, siempre puedes ponernos la fecha exacta (para hoy es '${new Date().format('dd/MM/yyyy')}')</h5>
-          </div>
+        Renfe puede que no, pero ¡treneo.es te necesita!
+      </p>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="7Z58KKP34ULTW">
+        <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal. La forma rápida y segura de pagar en Internet.">
+        <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
+      </form>
+    </div>
+    <div class="block block-somos">
+      <h2>somos un buscador de trenes</h2>
+      <p>
+      Treneo busca en Renfe la información de sus trenes: ave, alvia, altaria, etc. y de todas las estaciones, ya sean grandes: madrid, barcelona, sevilla, málaga, zaragoza, pamplona... o pequeñas: alcalá de xiver, barbera del valles...
+      </p>
+    </div>
+    <div class="block block-informacion">
+      <h2>damos información de renfe</h2>    
+      <p>
+      Proporcionamos información relevante para que planifiques tu viaje. De un solo vistazo puedes ver los distintos trenes para un trayecto, con sus horarios y precios, para uno o varios días.
+      <br/>
+      Y no nos quedamos ahí. Destacamos los mejores precios del día, filtramos la información por clase, horario, etc., enlazamos con la página de Renfe directamente para que puedas reservar sin dar vueltas tu billete; cuanto más práctica la información, mejor.
+      </p>
+    </div>
+    <div class="block block-prueba">
+      <h2>opciones de búsqueda</h2>
+      <p>
+      Por ejemplo, si sales de Madrid y buscas el mejor precio entre ir a Sevilla, Valladolid o Pamplona. Tu búsqueda sería:
+      <br/>
+      <code>'madrid sevilla valladolid pamplona'</code>
+      <br/>
+      Si quieres viajar hoy, pues dinos <code>'hoy'</code>
+      <br/>
+      Y si quieres ver los trenes de mañana, pues pon <code>'mañana'</code>
+      <br/>
+      Prueba con <code>'próxima semana'</code>, <code>'mes que viene'</code>, <code>'agosto'</code>, <code>'esta semana'</code>
+      <br/>
+      Y siempre puedes ponernos la fecha exacta, para hoy es <code>'${new Date().format('dd/MM/yyyy')}'</code>
+      </p>
+    </div>
+    <div class="block block-consulta">
+      <h2>consulta directa</h2>
+      <br/>
+      <div class="row-fluid">
+        <div class="span4 columns">
+          <g:set var="origen" value="madrid"/>
+          <g:set var="destinos" value="${['barcelona','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
+          <ul>
+            <g:each var="destino" in="${destinos}">
+              <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Renfe ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+            </g:each>
+          </ul>
+        </div>
+        <div class="span4 columns">
+          <g:set var="origen" value="barcelona"/>
+          <g:set var="destinos" value="${['madrid','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
+          <ul>
+            <g:each var="destino" in="${destinos}">
+              <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Renfe ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+            </g:each>
+          </ul>
+        </div>
+        <div class="span4 columns">
+          <g:set var="origen" value="sevilla"/>
+          <g:set var="destinos" value="${['madrid','barcelona','valencia','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
+          <ul>
+            <g:each var="destino" in="${destinos}">
+              <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Renfe ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+            </g:each>
+          </ul>
         </div>
       </div>
     </div>
-    <div class="row-fluid">
-      <div class="span4 columns">
-        <g:set var="origen" value="madrid"/>
-        <g:set var="destinos" value="${['barcelona','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
-        <ul>
-          <g:each var="destino" in="${destinos}">
-            <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Tren ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
-          </g:each>
-        </ul>
-      </div>
-      <div class="span4 columns">
-        <g:set var="origen" value="barcelona"/>
-        <g:set var="destinos" value="${['madrid','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
-        <ul>
-          <g:each var="destino" in="${destinos}">
-            <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Tren ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
-          </g:each>
-        </ul>
-      </div>
-      <div class="span4 columns">
-        <g:set var="origen" value="sevilla"/>
-        <g:set var="destinos" value="${['madrid','barcelona','valencia','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
-        <ul>
-          <g:each var="destino" in="${destinos}">
-            <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Tren ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
-          </g:each>
-        </ul>
-      </div>
+    <div class="block block-footer">
+      <p class="meta">
+        Ponte en contacto con nosotros y siguenos
+        <br/>
+        <a href="">contacto@treneo.es</a>
+      </p>
     </div>
     <script type="text/javascript">
       $(document).ready( function() {
+        var fonts = ["Sue Ellen Francisco, cursive","Duru Sans, sans-serif","Quicksand, sans-serif","Oleo Script Swash Caps, cursive","Vast Shadow, cursive","Smokum, cursive","Montserrat Alternates, sans-serif","Shojumaru, cursive","Peralta, cursive","Prosto One, cursive","Kavoon, cursive","Bubbler One, sans-serif","Ceviche One, cursive","Ribeye Marrow, cursive"];
+
+        $('.treneo').css('color', '${colors[(new java.util.Random()).nextInt(4)]}');
+        $('.treneo').css('font-family', fonts[${(new java.util.Random()).nextInt(11)}]);
         /*
         var ePrincipales = [];
         var e = [];

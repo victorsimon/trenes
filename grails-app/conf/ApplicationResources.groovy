@@ -32,5 +32,11 @@ modules = {
 		resource url: [dir: 'datepicker/css',			file: 'datepicker.css']
 		resource url: "less/dummy.css" // empty css: see https://github.com/paulfairless/grails-lesscss-resources/issues/25
 	}
+
+	'index' {
+		resource url: [dir: 'js',			file: 'jquery.cookie.js']
+		resource url: [dir: 'js',			file: 'jquery.suggest.js']
+		resource url: "css/index.css"	
+	}
 }
 

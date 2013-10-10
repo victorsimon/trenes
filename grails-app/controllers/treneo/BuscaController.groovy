@@ -14,7 +14,7 @@ class BuscaController {
      * Index page with search form and results
      */
     def index() {
-        def fonts = ["font-family: Sue Ellen Francisco, cursive;","font-family: Duru Sans, sans-serif;","font-family: Quicksand, sans-serif;","font-family: Oleo Script Swash Caps, cursive;","font-family: Vast Shadow, cursive;","font-family: Smokum, cursive;","font-family: Montserrat Alternates, sans-serif;","font-family: Shojumaru, cursive;","font-family: Peralta, cursive;","font-family: Prosto One, cursive;","font-family: Kavoon, cursive;","font-family: Bubbler One, sans-serif;","font-family: Ceviche One, cursive;","font-family: Ribeye Marrow, cursive;"]
+        def fonts = ["'font-family', 'Sue Ellen Francisco, cursive'","'font-family', 'Duru Sans, sans-serif'","'font-family', 'Quicksand, sans-serif'","'font-family', 'Oleo Script Swash Caps, cursive'","'font-family', 'Vast Shadow, cursive'","'font-family', 'Smokum, cursive'","'font-family', 'Montserrat Alternates, sans-serif'","'font-family', 'Shojumaru, cursive'","'font-family', 'Peralta, cursive'","'font-family', 'Prosto One, cursive'","'font-family', 'Kavoon, cursive'","'font-family', 'Bubbler One, sans-serif'","'font-family', 'Ceviche One, cursive'","'font-family', 'Ribeye Marrow, cursive'"]
 
         if (!params.q?.trim()) {
             return [fonts: fonts]
@@ -47,7 +47,7 @@ class BuscaController {
     }
 
     def trenes() {
-        if (!params.origenes?) {
+        if (!params.origenes) {
             return [:]
         }
         def slurper = new groovy.json.JsonSlurper()
