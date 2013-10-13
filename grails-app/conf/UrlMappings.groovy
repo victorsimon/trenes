@@ -17,9 +17,21 @@ class UrlMappings {
 		/* 
 		 * Pages with controller
 		 * WARN: No domain/controller should be named "api" or "mobile" or "web"!
-		 */
         "/$action?/?"	{
 			controller	= 'busca'
+        }
+		 */
+        "/"	{
+			controller	= 'busca'
+			action = 'index'
+        }
+        "/tren"	{
+			controller	= 'busca'
+			action = 'showTren'
+        }
+        "/trenes"	{
+			controller	= 'busca'
+			action = 'trenes'
         }
 /*		"/$controller/$action?/$id?"{
 			constraints {

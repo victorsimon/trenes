@@ -3,19 +3,29 @@
   <%@page sitemeshPreprocess="false"%>
   <html lang="es" class="no-js">
     <head>
-      <title>Treneo</title>
-      <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Treneo</title>
+    <link rel="canonical" />
+      <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>Listado de renfe ${params.origenes} - ${params.destinos}</title>
+      <meta name="description" content="Listado con los trenes disponibles en renfe para ${origenes} - ${destinos} ave, alvi y talgo. Horarios y precios por categoría."/>
+      <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
+      <g:set var="colors" value="['#34a5aa', '#aaaaaa', '#4789aa', '#d3e310']"/>
       <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
       <r:require modules="jquery"/>
       <r:require modules="bootstrap"/>
+      <r:require modules="result"/>
+      <r:require modules="jquery-extra"/>
       <r:layoutResources />
     </head>
   <body onload="">
       <div class="container">
       <div class="row-fluid">
         <div class="span7 offset1">
+          <div class="row-fluid">
+            <div class="span12 treneo">
+              Treneo
+            </div>
+          </div>
           <div class="row-fluid filtros">
             <div class="span12">
               <g:set var="hasDestinos" value="${destinos?.size() > 1}"/>
@@ -25,7 +35,7 @@
                   Filtrar por: <a href="#" data-toggle="tooltip" title="Puedes ocultar algunos datos del resultado de tu búsqueda usando los filtros. Si pulsas sobre alguna de las opciones, aparecerá un panel con los datos que se están mostrando. Al pulsar en alguno de esos datos, lo ocultarás y si vuelves a pulsar en el, volverás a mostrarlo. Y si pulsas sobre 'Cancelar filtros' volverás a mostrar todos los datos. ¡Prueba!"><i class=" icon-info-sign"></i></a>
                 </div>
                 <div class="span3 offset6 text-right">
-                  <a class="accordion-toggle btn-cancelar" data-toggle="collapse" data-parent="#accordion-clase" href="">
+                  <a rel="nofollow" title="Cancelar filtros" class="accordion-toggle btn-cancelar" data-toggle="collapse" data-parent="#accordion-clase" href="">
                     <span class="label">Cancelar filtros</span>
                   </a>
                 </div>
@@ -36,25 +46,25 @@
                     <div class="row-fluid">
                       <g:if test="${hasDestinos}">
                         <div class="span3">
-                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-destinos">
+                          <a rel="nofollow" title="Filtrar por los distintos destinos de tren (madrid, valencia, barcelona, sevilla, bilbao)" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-destinos">
                             Destino 
                           </a>
                         </div>
                       </g:if>
                       <g:if test="${hasFechas}">
                         <div class="span3">
-                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-fechas">
+                          <a rel="nofollow" title="Filtrar por fechas" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-fechas">
                             Fecha 
                           </a>
                         </div>
                       </g:if>
                       <div class="span3">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-clase">
+                        <a rel="nofollow" title="Filtrar por clase de renfe: turista, preferente, litera, etc." class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-clase">
                           Clase 
                         </a>
                       </div>
                       <div class="span3">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-hora">
+                        <a rel="nofollow" title="Filtrar por horarios. Trenes antes de las doce y después." class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-hora">
                           Horas 
                         </a>
                       </div>
@@ -119,8 +129,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="row-fluid"><div class="span7 offset1">
 </g:if>
     <g:set var="haveResults" value="${searchResult}" />
 
@@ -132,14 +140,9 @@
       <g:set var="link" value="${dato.url}" />
       <div class="row-fluid ${dato.fecha.format('dd-MM-yyyy')} ${dato.trayecto.destino.nombre.replace(' ', '-')}"><div class="span12">
         <div class="row-fluid">
-          <div class="span1">
-            <button type="button" class="btn btn-info btn-mini" style="margin-top: 10px;" data-toggle="collapse" data-target="#infotren${infoId}" id="buttonCollapse${infoId}">
-              <i class="icon-minus"></i>
-            </button>
-          </div>
-          <div class="span11 name"><h2><small><a href="${link}" target="_blank">${nombre} ${dato.fecha.format('EEEE dd/MM/yyyy')}</a></small></h2>
-              <a href="${createLink(action: 'showTren', params: [trayecto: dato.trayecto.id, fecha: dato.fecha.format('dd/MM/yyyy'), fechas: fechas, nojs: 'true'])}" >
-                ¿No te gusta javascript? Pincha aquí
+          <div class="span12 name"><h2><button type="button" class="btn btn-mini btn-info" style="line-height: 10px;" data-toggle="collapse" data-target="#infotren${infoId}" id="buttonCollapse${infoId}"><i class="icon-minus"></i></button> <small><a href="${link}" target="_blank">${nombre} ${dato.fecha.format('EEEE dd/MM/yyyy')}</a></small></h2>
+              <a title="Enlace los trenes del día" href="${createLink(action: 'showTren', params: [trayecto: dato.trayecto.id, fecha: dato.fecha.format('dd/MM/yyyy'), fechas: fechas, nojs: 'true'])}" >
+                Para ver los trenes Renfe ${nombre} desde un equipo antiguo sin javascript pincha aquí
               </a>
           </div>
         </div>
@@ -176,15 +179,19 @@
       });
     </script>
 <g:if test="${nojs == 'true'}">
-        </div></div>
-        <div class="span3 publi">
-        </div>
+      </div>
+      <div class="span3 publi">
+          <g:render template="/layouts/sense300x600"/>
       </div>
     </div>
     <iframe id="setcookie" src="https://venta.renfe.com/vol/index.do" style="display: none;">
     </iframe>
     <script>
       $(document).ready(function() {
+        var fonts = ["Sue Ellen Francisco, cursive","Duru Sans, sans-serif","Quicksand, sans-serif","Oleo Script Swash Caps, cursive","Vast Shadow, cursive","Smokum, cursive","Montserrat Alternates, sans-serif","Shojumaru, cursive","Peralta, cursive","Prosto One, cursive","Kavoon, cursive","Bubbler One, sans-serif","Ceviche One, cursive","Ribeye Marrow, cursive"];
+
+        $('.treneo').css('color', '${colors[(new java.util.Random()).nextInt(4)]}');
+        $('.treneo').css('font-family', fonts[${(new java.util.Random()).nextInt(11)}]);
         $('#formTrenes').submit();
         $('.btn-clase').on('click', function() {
           var clase = $(this).text();

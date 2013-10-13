@@ -33,10 +33,17 @@ modules = {
 		resource url: "less/dummy.css" // empty css: see https://github.com/paulfairless/grails-lesscss-resources/issues/25
 	}
 
-	'index' {
+	'jquery-extra' {
 		resource url: [dir: 'js',			file: 'jquery.cookie.js']
 		resource url: [dir: 'js',			file: 'jquery.suggest.js']
+	}
+
+	'index' {
 		resource url: "css/index.css"	
+	}
+
+	'result' {
+		resource url: "css/result.css"	
 	}
 }
 

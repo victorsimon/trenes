@@ -2,10 +2,11 @@
 <%@ page defaultCodec="html" %>
 <html lang="es" class="no-js">
   <head>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
-    <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One' rel='stylesheet' type='text/css'>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Busca Renfe ave alvia a cualquier destino, como madrid, barcelona o sevilla</title>
+    <meta name="description" content="Busca de forma sencilla tu billete de Renfe para todos los trenes y trayectos, como renfe ave madrid barcelona, renfe ave madrid sevilla, etc o cercanias madrid"/>
+    <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
     <g:set var="colors" value="['#34a5aa', '#aaaaaa', '#4789aa', '#d3e310']"/>
     <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
     <r:require modules="jquery"/>
@@ -28,29 +29,33 @@
           <p>Un buscador de trenes sencillo y práctico</p>
       </g:form>
       <p class="meta"> 
-        Por <a href="#">Víctor Simón</a> e <a href="#">Isabel Berruezo</a>
+        Por <a rel="nofollow" title="Linkedin de Víctor Simón Batanero" href="http://es.linkedin.com/in/victorsimon">Víctor Simón</a> e <a rel="nofollow" title="Linkedin de Isabel Berruezo Aldunate" href="http://es.linkedin.com/in/ixabel">Isabel Berruezo</a>
         <br/>
-        Renfe puede que no, pero ¡treneo.es te necesita!
+        <spam class="renfe">Renfe</spam> puede que no, pero ¡treneo.es te necesita!
       </p>
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
         <input type="hidden" name="cmd" value="_s-xclick">
         <input type="hidden" name="hosted_button_id" value="7Z58KKP34ULTW">
         <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal. La forma rápida y segura de pagar en Internet.">
-        <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
+        <img alt="Dona a treneo.es busca trenes en renfe. Ave, alvia, madrid, valencia, renfecercanias madrid." border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
       </form>
+      <div class="down-arrow">
+        <h3 class="meta">descubre más</h3>
+        <img alt="Lee más sobre treneo.es, y busca tus trenes en Rrenfe para renfe ave madrid barcelona sevilla valencia cercanias madrid." src="${resource(dir: 'images', file: 'down.jpg')}"/>
+      </div>
     </div>
     <div class="block block-somos">
       <h2>somos un buscador de trenes</h2>
       <p>
-      Treneo busca en Renfe la información de sus trenes: ave, alvia, altaria, etc. y de todas las estaciones, ya sean grandes: madrid, barcelona, sevilla, málaga, zaragoza, pamplona... o pequeñas: alcalá de xiver, barbera del valles...
+      Treneo busca en <spam class="renfe">Renfe</spam> la información de sus trenes: ave, alvia, altaria, etc. y de todas las estaciones, ya sean grandes: madrid, barcelona, sevilla, málaga, zaragoza, pamplona... o pequeñas: alcalá de xiver, barbera del valles...
       </p>
     </div>
     <div class="block block-informacion">
-      <h2>damos información de renfe</h2>    
+      <h2>damos información de <spam class="renfe">renfe</spam></h2>    
       <p>
       Proporcionamos información relevante para que planifiques tu viaje. De un solo vistazo puedes ver los distintos trenes para un trayecto, con sus horarios y precios, para uno o varios días.
       <br/>
-      Y no nos quedamos ahí. Destacamos los mejores precios del día, filtramos la información por clase, horario, etc., enlazamos con la página de Renfe directamente para que puedas reservar sin dar vueltas tu billete; cuanto más práctica la información, mejor.
+      Y no nos quedamos ahí. Destacamos los mejores precios del día, filtramos la información por clase, horario, etc., enlazamos con la página de <spam class="renfe">Renfe</spam> directamente para que puedas reservar sin dar vueltas tu billete; cuanto más práctica la información, mejor.
       </p>
     </div>
     <div class="block block-prueba">
@@ -78,7 +83,7 @@
           <g:set var="destinos" value="${['barcelona','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Renfe ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(action:'index', params:[q:origen+' '+destino])}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>
@@ -87,7 +92,7 @@
           <g:set var="destinos" value="${['madrid','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Renfe ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(action:'index', params:[q:origen+' '+destino])}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>
@@ -96,7 +101,7 @@
           <g:set var="destinos" value="${['madrid','barcelona','valencia','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a href="${createLink(action:'index', params:[q:origen+' '+destino])}">Renfe ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(action:'index', params:[q:origen+' '+destino])}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>
@@ -106,7 +111,7 @@
       <p class="meta">
         Ponte en contacto con nosotros y siguenos
         <br/>
-        <a href="">contacto@treneo.es</a>
+        <a title="Email de contacto" rel="nofollow" href="">contacto@treneo.es</a>
       </p>
     </div>
     <script type="text/javascript">

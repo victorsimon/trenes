@@ -4,28 +4,10 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
-    <style type="text/css">
-      .container {
-        margin-top: 20px;
-      }
-      .loading {
-        background: url(../images/spinner.gif) 1% 50% no-repeat transparent;
-        height: 16px;
-        width: 16px;
-        padding: 0.5em 20px;
-      }
-      .filtros {
-        margin-top: 5px;
-        background-color: #fafafa;
-        padding: 5px;
-      }
-      .publi {
-        margin-top: 5px;
-        background-color: #fafafa;
-        padding: 5px;
-      }
-    </style>
+    <title>Renfe trenes ave <g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
+    <meta name="description" content="Lista de renfe para los trenes ${params.q}. Trenes de media y larga distancia. Busca trenes alvia, ave, talgo para todos los destinos de renfe: madrid, barcelona, sevilla, valencia, alicante, málaga, etc."/>
+    <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
+    <g:set var="colors" value="['#34a5aa', '#aaaaaa', '#4789aa', '#d3e310']"/>
     <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
     <script type="text/javascript">
         var focusQueryInput = function() {
@@ -34,12 +16,19 @@
     </script>
     <r:require modules="jquery"/>
     <r:require modules="bootstrap"/>
+    <r:require modules="result"/>
+    <r:require modules="jquery-extra"/>
     <r:layoutResources />
   </head>
   <body onload="">
     <div class="container">
       <div class="row-fluid">
         <div class="span7 offset1">
+          <div class="row-fluid">
+            <div class="span12 treneo">
+              Treneo
+            </div>
+          </div>
           <div class="row-fluid">
             <g:form class="form-inline" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
               <div class="span12">
@@ -60,10 +49,10 @@
               <g:set var="hasFechas" value="${fechas?.size() > 1}"/>
               <div class="row-fluid">
                 <div class="span3">
-                  Filtrar por: <a href="#" data-toggle="tooltip" title="Puedes ocultar algunos datos del resultado de tu búsqueda usando los filtros. Si pulsas sobre alguna de las opciones, aparecerá un panel con los datos que se están mostrando. Al pulsar en alguno de esos datos, lo ocultarás y si vuelves a pulsar en el, volverás a mostrarlo. Y si pulsas sobre 'Cancelar filtros' volverás a mostrar todos los datos. ¡Prueba!"><i class=" icon-info-sign"></i></a>
+                  Filtrar por: <a rel="nofollow" title="Filtro de horarios, clases y fechas." href="#" data-toggle="tooltip" title="Puedes ocultar algunos datos del resultado de tu búsqueda usando los filtros. Si pulsas sobre alguna de las opciones, aparecerá un panel con los datos que se están mostrando. Al pulsar en alguno de esos datos, lo ocultarás y si vuelves a pulsar en el, volverás a mostrarlo. Y si pulsas sobre 'Cancelar filtros' volverás a mostrar todos los datos. ¡Prueba!"><i class=" icon-info-sign"></i></a>
                 </div>
                 <div class="span3 offset6 text-right">
-                  <a class="accordion-toggle btn-cancelar" data-toggle="collapse" data-parent="#accordion-clase" href="">
+                  <a rel="nofollow" title="Cancelar filtros" class="accordion-toggle btn-cancelar" data-toggle="collapse" data-parent="#accordion-clase" href="">
                     <span class="label">Cancelar filtros</span>
                   </a>
                 </div>
@@ -74,25 +63,25 @@
                     <div class="row-fluid">
                       <g:if test="${hasDestinos}">
                         <div class="span3">
-                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-destinos">
+                          <a rel="nofollow" title="Filtrar por los distintos destinos de tren (madrid, valencia, barcelona, sevilla, bilbao)" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-destinos">
                             Destino 
                           </a>
                         </div>
                       </g:if>
                       <g:if test="${hasFechas}">
                         <div class="span3">
-                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-fechas">
+                          <a rel="nofollow" title="Filtrar por fechas" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-fechas">
                             Fecha 
                           </a>
                         </div>
                       </g:if>
                       <div class="span3">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-clase">
+                        <a rel="nofollow" title="Filtrar por clase de renfe: turista, preferente, litera, etc." class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-clase">
                           Clase 
                         </a>
                       </div>
                       <div class="span3">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-hora">
+                        <a rel="nofollow" title="Filtrar por horarios. Trenes antes de las doce y después." class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-clase" href="#filtro-hora">
                           Horas 
                         </a>
                       </div>
@@ -169,13 +158,13 @@
             </div>
           </div>
           <div class="row-fluid">
-            <a href="${createLink(action: 'trenes', params: [origenes: origenes, destinos: destinos, fechas: fechas, nojs: true])}" >
-              ¿No te gusta javascript? Pincha aquí
+            <a title="Enlace a los trenes" href="${createLink(action: 'trenes', params: [origenes: origenes, destinos: destinos, fechas: fechas, nojs: true])}" >
+              Para ver los trenes Renfe ${params.q} desde un equipo antiguo sin javascript pincha aquí
             </a>
           </div>
         </div>
         <div class="span4 publi">
-	  <g:render template="/layouts/sense300x600"/>
+	        <g:render template="/layouts/sense300x600"/>
         </div>
       </div>
     </div>
@@ -188,6 +177,10 @@
     </iframe>
     <script>
       $(document).ready(function() {
+        var fonts = ["Sue Ellen Francisco, cursive","Duru Sans, sans-serif","Quicksand, sans-serif","Oleo Script Swash Caps, cursive","Vast Shadow, cursive","Smokum, cursive","Montserrat Alternates, sans-serif","Shojumaru, cursive","Peralta, cursive","Prosto One, cursive","Kavoon, cursive","Bubbler One, sans-serif","Ceviche One, cursive","Ribeye Marrow, cursive"];
+
+        $('.treneo').css('color', '${colors[(new java.util.Random()).nextInt(4)]}');
+        $('.treneo').css('font-family', fonts[${(new java.util.Random()).nextInt(11)}]);
         $('#formTrenes').submit();
         $('.btn-clase').on('click', function() {
           var clase = $(this).text();

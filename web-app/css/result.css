@@ -1,0 +1,25 @@
+body {
+  font-family: 'Maven Pro';
+}
+.treneo {
+  font-size: 30px; 
+}
+.container {
+  margin-top: 20px;
+}
+.loading {
+  background: url(../images/spinner.gif) 1% 50% no-repeat transparent;
+  height: 16px;
+  width: 16px;
+  padding: 0.5em 20px;
+}
+.filtros {
+  margin-top: 5px;
+  background-color: #fafafa;
+  padding: 5px;
+}
+.publi {
+  margin-top: 5px;
+  background-color: #fafafa;
+  padding: 5px;
+}

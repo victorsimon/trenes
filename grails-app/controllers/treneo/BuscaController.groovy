@@ -48,7 +48,8 @@ class BuscaController {
 
     def trenes() {
         if (!params.origenes) {
-            return [:]
+            redirect(action: 'index')
+            return
         }
         def slurper = new groovy.json.JsonSlurper()
 
@@ -56,31 +57,42 @@ class BuscaController {
         def destinos = params.destinos.stringToList { Estacion.findByNombreLike("${it.trim()}") }
         def fechas = params.fechas?.stringToList { new Date().parse('dd/MM/yyyy',it).clearTime() }?:[]
 
-        def trayectos = renfeService.extraerTrayectos(origenes, destinos)
+        try {
+            def trayectos = renfeService.extraerTrayectos(origenes, destinos)
 
-        if (fechas.size() == 0) {
-            def today = new Date().clearTime()
-            fechas << today
-            fechas << today + 1
-            fechas << today + 2
-        }
-        def datos = []
-        trayectos.each { trayecto ->
-            fechas.each { fecha ->
-                datos << [trayecto: trayecto, fecha: fecha, url: renfeService.componerURL(trayecto, fecha)]
+            if (fechas.size() == 0) {
+                def today = new Date().clearTime()
+                fechas << today
+                fechas << today + 1
+                fechas << today + 2
             }
-        }
+            def datos = []
+            trayectos.each { trayecto ->
+                fechas.each { fecha ->
+                    datos << [trayecto: trayecto, fecha: fecha, url: renfeService.componerURL(trayecto, fecha)]
+                }
+            }
 
-        return render(template: 'trenes', model: [searchResult: datos, nojs: params.nojs?:'false'])
+            return render(template: 'trenes', model: [searchResult: datos, nojs: params.nojs?:'false'])
+        } catch(e) {
+            log.error e
+            render (status: '503', text: 'Renfe no está online en estos momentos. Pruebe más tarde.')
+        }
     }
 
     def showTren() {
         if (!params.trayecto?.trim()) {
-            return [:]
+            redirect(action: 'index')
+            return
         }
-        def trenes = renfeService.consultarTrenesDisponibles(params.trayecto, new Date().parse('dd/MM/yyyy', params.fecha))
-        render (template: 'showTren', model: [trenes: trenes,
-        infoId: params.infoId, nojs: params.nojs?:'false'])
+        try {
+            def trenes = renfeService.consultarTrenesDisponibles(params.trayecto, new Date().parse('dd/MM/yyyy', params.fecha))
+            render (template: 'showTren', model: [trenes: trenes,
+            infoId: params.infoId, nojs: params.nojs?:'false'])
+        } catch(e) {
+            log.error e
+            render (status: '503', text: 'Renfe no está online en estos momentos. Pruebe más tarde.')
+        }
     }
 
     private def interpretar(String frase) {
