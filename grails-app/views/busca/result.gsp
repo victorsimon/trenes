@@ -146,6 +146,11 @@
               </div>
             </div>
           </div>
+          <div class="row-fluid hidden-desktop publi">
+            <div class="span12">
+              <g:render template="/layouts/sense320x50"/>
+            </div>
+          </div>
           <g:if test="${flash.message}">
             <div class="row-fluid">
                 <div class="span12">
@@ -163,8 +168,16 @@
             </a>
           </div>
         </div>
-        <div class="span4 publi">
-	        <g:render template="/layouts/sense300x600"/>
+        <div class="span4 visible-desktop publi">
+          <div>
+            <g:render template="/layouts/sense300x250_1"/>
+          </div>
+          <div>
+            <g:render template="/layouts/sense300x250_2"/>
+          </div>
+          <div>
+            <g:render template="/layouts/sense300x600"/>
+          </div>
         </div>
       </div>
     </div>

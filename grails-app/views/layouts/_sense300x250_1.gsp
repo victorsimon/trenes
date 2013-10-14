@@ -1,9 +1,9 @@
 <script type="text/javascript"><!--
 google_ad_client = "ca-pub-8089105942108480";
-/* Treneo */
-google_ad_slot = "2754948496";
+/* treneo-rectangulo1 */
+google_ad_slot = "7554761295";
 google_ad_width = 300;
-google_ad_height = 600;
+google_ad_height = 250;
 //-->
 </script>
 <script type="text/javascript"
