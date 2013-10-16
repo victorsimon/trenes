@@ -83,7 +83,7 @@
           <g:set var="destinos" value="${['barcelona','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(action:'index', params:[q:origen+' '+destino])}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>
@@ -92,7 +92,7 @@
           <g:set var="destinos" value="${['madrid','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(action:'index', params:[q:origen+' '+destino])}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>
@@ -101,7 +101,7 @@
           <g:set var="destinos" value="${['madrid','barcelona','valencia','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(action:'index', params:[q:origen+' '+destino])}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>

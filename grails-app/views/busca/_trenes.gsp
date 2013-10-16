@@ -22,9 +22,11 @@
       <div class="row-fluid">
         <div class="span7 offset1">
           <div class="row-fluid">
-            <div class="span12 treneo">
-              Treneo
-            </div>
+            <a href="${createLink(uri: '/')}" title="Busca en renfe tus billetes de ave, alvia, talgo...">
+              <div class="span12 treneo">
+                Treneo
+              </div>
+            </a>
           </div>
           <div class="row-fluid filtros">
             <div class="span12">

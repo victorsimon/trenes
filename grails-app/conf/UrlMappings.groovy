@@ -33,6 +33,15 @@ class UrlMappings {
 			controller	= 'busca'
 			action = 'trenes'
         }
+
+        "/renfe/$origen/$destino" {
+			controller	= 'busca'
+			action = 'renfe'
+        }
+
+        "/sitemap" {
+        	controller = "sitemap"
+        }
 /*		"/$controller/$action?/$id?"{
 			constraints {
 				controller(matches:/^((?!(api|mobile|web)).*)$/)
@@ -42,10 +51,10 @@ class UrlMappings {
 		/* 
 		 * System Pages without controller 
 		 */
-/*		"403"	(view:'/_errors/403')
+		"403"	(view:'/_errors/403')
 		"404"	(view:'/_errors/404')
 		"500"	(view:'/_errors/error')
 		"503"	(view:'/_errors/503')
-*/
+
 	}
 }

@@ -46,6 +46,46 @@ class BuscaController {
             nojs: params.nojs])
     }
 
+    def renfe() {
+        if (!params.origen || !params.destino) {
+            redirect(action: 'index')
+            return
+        }
+        if (Estacion.count() <= 0) {
+            renfeService.descargarEstaciones()
+        }
+        def origen = new Estacion(nombre: params.origen)
+        def destino = new Estacion(nombre: params.destino)
+
+        println params
+        def origenes = [Estacion.findByNombreIlike("%${origen.toFriendlySQL()}%")]
+        def destinos = [Estacion.findByNombreIlike("%${destino.toFriendlySQL()}%")]
+        def fechas = []
+        println origenes
+        println destinos
+        try {
+            def trayectos = renfeService.extraerTrayectos(origenes, destinos)
+
+            if (fechas.size() == 0) {
+                def today = new Date().clearTime()
+                fechas << today
+                fechas << today + 1
+                fechas << today + 2
+            }
+            def datos = []
+            trayectos.each { trayecto ->
+                fechas.each { fecha ->
+                    datos << [trayecto: trayecto, fecha: fecha, url: renfeService.componerURL(trayecto, fecha)]
+                }
+            }
+
+            return render(template: 'trenes', model: [searchResult: datos, nojs: 'true'])
+        } catch(e) {
+            log.error e
+            render (status: '503', text: 'Renfe no está online en estos momentos. Pruebe más tarde.')
+        }        
+    }
+
     def trenes() {
         if (!params.origenes) {
             redirect(action: 'index')

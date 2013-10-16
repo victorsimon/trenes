@@ -58,6 +58,14 @@ class Estacion {
 		return "${nombre}";
 	}
 
+	public String toFriendlyUrl() {
+	    nombre.replaceAll(/\(\*\)/, '').trim().replaceAll(/ |\//, '-').toLowerCase()
+	}
+
+	public String toFriendlySQL() {
+	    nombre.replaceAll(/-/, '_').toLowerCase()
+	}
+
 	boolean equals (Object other) {
 		if (null == other) return false
 		if (! (other instanceof Estacion)) return false
