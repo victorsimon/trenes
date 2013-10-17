@@ -29,12 +29,7 @@ class UrlMappings {
 			controller	= 'busca'
 			action = 'showTren'
         }
-        "/trenes"	{
-			controller	= 'busca'
-			action = 'trenes'
-        }
-
-        "/renfe/$origen/$destino" {
+        "/renfe/$origen/$destinos**?" {
 			controller	= 'busca'
 			action = 'renfe'
         }

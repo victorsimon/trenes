@@ -35,11 +35,18 @@ class BuscaController {
             return [:]
 
     	def origenes = contenido.estaciones[0]
-    	def destinos = contenido.estaciones.size() > 1? contenido.estaciones[1..-1]: Estacion.findAllByPrincipal(true, params)
+    	def destinos = contenido.estaciones.size() > 1? contenido.estaciones[1..-1]: Estacion.findAllByPrincipal(true, [max: 3])
+        println destinos
+        def desUrl = []
+        destinos.each {
+            it.each { e -> 
+                desUrl << e.toFriendlyUrl()
+            }
+        }
 
         return render(view: 'result', model: 
-            [origenes: origenes, 
-            destinos: destinos, 
+            [origenes: origenes.toFriendlyUrl(), 
+            destinos: desUrl, 
             fechas: contenido.fechas.date, 
             dow: contenido.fechas.dow, 
             fonts: fonts,
@@ -47,7 +54,8 @@ class BuscaController {
     }
 
     def renfe() {
-        if (!params.origen || !params.destino) {
+        println params
+        if (!params.origen) {
             redirect(action: 'index')
             return
         }
@@ -55,14 +63,18 @@ class BuscaController {
             renfeService.descargarEstaciones()
         }
         def origen = new Estacion(nombre: params.origen)
-        def destino = new Estacion(nombre: params.destino)
-
-        println params
         def origenes = [Estacion.findByNombreIlike("%${origen.toFriendlySQL()}%")]
-        def destinos = [Estacion.findByNombreIlike("%${destino.toFriendlySQL()}%")]
-        def fechas = []
+
+        def estaciones = params.destinos? params.destinos.tokenize('/') : []
+        def destinos = []
+        estaciones.each { 
+            destinos << Estacion.findByNombreIlike("%${new Estacion(nombre: it).toFriendlySQL()}%")
+        }
         println origenes
         println destinos
+
+        def fechas = params.fechas?.stringToList { new Date().parse('dd/MM/yyyy',it).clearTime() }?:[]
+
         try {
             def trayectos = renfeService.extraerTrayectos(origenes, destinos)
 
@@ -79,7 +91,7 @@ class BuscaController {
                 }
             }
 
-            return render(template: 'trenes', model: [searchResult: datos, nojs: 'true'])
+            return render(template: 'trenes', model: [origenes: origenes, destinos: destinos, searchResult: datos, nojs: params.nojs?:'true'])
         } catch(e) {
             log.error e
             render (status: '503', text: 'Renfe no está online en estos momentos. Pruebe más tarde.')

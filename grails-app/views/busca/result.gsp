@@ -165,7 +165,7 @@
             </div>
           </div>
           <div class="row-fluid">
-            <a title="Enlace a los trenes" href="${createLink(action: 'trenes', params: [origenes: origenes, destinos: destinos, fechas: fechas, nojs: true])}" >
+            <a title="Enlace a los trenes" href="${createLink(uri: '/renfe/' + origenes + '/' + destinos.join('/'), params: [fechas: fechas, nojs: true])}" >
               Para ver los trenes Renfe ${params.q} desde un equipo antiguo sin javascript pincha aquí
             </a>
           </div>
@@ -183,10 +183,9 @@
         </div>
       </div>
     </div>
-    <g:formRemote id="formTrenes" name="formTrenes" update="trenes" url="[action: 'trenes']" >
-      <input type="hidden" name="origenes" value="${origenes}" />
-      <input type="hidden" name="destinos" value="${destinos}" />
+    <g:formRemote id="formTrenes" name="formTrenes" update="trenes" url="[uri: '/renfe/' + origenes + '/' + destinos.join('/')]" >
       <input type="hidden" name="fechas" value="${fechas}" />
+      <input type="hidden" name="nojs" value="false" />
     </g:formRemote>
     <iframe id="setcookie" src="https://venta.renfe.com/vol/index.do" style="display: none;">
     </iframe>
