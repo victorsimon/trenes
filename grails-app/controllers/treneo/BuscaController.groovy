@@ -35,6 +35,16 @@ class BuscaController {
             return [:]
 
     	def origenes = contenido.estaciones[0]
+        println origenes
+        def orUrl = []
+        if (contenido.estaciones[0] instanceof Collection) {
+            origenes.each {
+                orUrl << it.toFriendlyUrl()
+            } 
+        } else {
+            orUrl = origenes.toFriendlyUrl()
+        }
+
     	def destinos = contenido.estaciones.size() > 1? contenido.estaciones[1..-1]: Estacion.findAllByPrincipal(true, [max: 3])
         println destinos
         def desUrl = []
@@ -45,7 +55,7 @@ class BuscaController {
         }
 
         return render(view: 'result', model: 
-            [origenes: origenes.toFriendlyUrl(), 
+            [origenes: orUrl, 
             destinos: desUrl, 
             fechas: contenido.fechas.date, 
             dow: contenido.fechas.dow, 
