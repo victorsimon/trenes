@@ -16,7 +16,7 @@
 	<h1>Tren ${trenes[0]?.trayecto} salida ${trenes[0]?.salida.format('dd/MM/yyyy HH:mm')}</h1>
 </g:if>
 <g:if test="${trenes.size() > 0}">
-<table class="table table-condensed" style="font-size: 10px;">
+<table class="table table-condensed" style="">
   <thead>
     <tr><th></th><th>Salida</th><th>llegada</th><th>Precio</th><th>Tarifa</th></tr>
   </thead>

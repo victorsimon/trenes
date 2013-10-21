@@ -2,7 +2,7 @@ body {
   font-family: 'Maven Pro';
 }
 .treneo {
-  font-size: 30px; 
+  font-size: 36px; 
 }
 .container {
   margin-top: 20px;
@@ -21,4 +21,8 @@ body {
 .publi {
   margin-top: 5px;
   padding: 5px;
+}
+
+div[id^='infotren']:hover {
+  cursor: pointer;
 }

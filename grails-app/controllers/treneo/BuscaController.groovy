@@ -165,34 +165,7 @@ class BuscaController {
             if (it.size() < 4)
                 return
             if (!it.matches(/(?<=^| )(?=[^ ]*\d)[^ ]+/)) { //palabras
-                def e = Estacion.findAllByNombreIlike("%${it.trim()}%", [max: 10])
-                if (e) {
-                    def generico
-                    e.each {
-                        if (!generico) {
-                            if (it.nombre.contains('(*)'))
-                                generico = it
-                        }
-                    }
-                    if (generico) 
-                        estaciones << generico
-                    else
-                        estaciones << e
-                }
-                else {
-                    def min = 100
-                    Estacion.list().each { estacion ->
-                        estacion.nombre.tokenize().each { nom ->
-                            def d = StringMetric.distance(it.trim(), nom)
-                            if (d < min) {
-                                e = estacion
-                                min = d
-                            }
-                        }
-                    }
-                    
-                    estaciones << e
-                }
+                estaciones << buscaEstacion(it)
             } else { //tiene números
                 it = it.replace('-','/')
                 try {
@@ -216,5 +189,38 @@ class BuscaController {
         if (estaciones.size == 0)
             return null
         [estaciones: estaciones, fechas: fechas]
+    }
+
+    private def buscaEstacion(String word){
+        def estaciones = []
+        def e = Estacion.findAllByNombreIlike("%${word.trim()}%", [max: 7])
+        if (e) {
+            def generico
+            e.each {
+                if (!generico) {
+                    if (it.nombre.contains('(*)'))
+                        generico = it
+                }
+            }
+            if (generico) 
+                estaciones.addAll(generico)
+            else
+                estaciones.addAll(e)
+        }
+        else {
+            def min = 100
+            Estacion.list().each { estacion ->
+                estacion.nombre.tokenize().each { nom ->
+                    def d = StringMetric.distance(word, nom)
+                    if (d < min) {
+                        e = estacion
+                        min = d
+                    }
+                }
+            }
+            
+            estaciones.addAll(e)
+        }
+        return estaciones
     }
 }

@@ -39,7 +39,7 @@
                     <input type="text" name="q" id="q" class="span12" value="${params.q}" placeholder="Origen Destino Fecha" autocomplete="off"/> 
                   </div>
                   <div class="span2">
-                    <button type="submit" class="btn btn-secundary span12" id="lq"><i class="icon-search"></i> Buscar</button>
+                    <button type="submit" class="btn btn-secundary span12" id="lq"><i class="icon-search"></i></button>
                   </div>
                 </div>
               </div>

@@ -142,10 +142,7 @@
       <g:set var="link" value="${dato.url}" />
       <div class="row-fluid ${dato.fecha.format('dd-MM-yyyy')} ${dato.trayecto.destino.nombre.replace(' ', '-')}"><div class="span12">
         <div class="row-fluid">
-          <div class="span12 name"><h2><button type="button" class="btn btn-mini btn-info" style="line-height: 10px;" data-toggle="collapse" data-target="#infotren${infoId}" id="buttonCollapse${infoId}"><i class="icon-minus"></i></button> <small><a href="${link}" target="_blank">${nombre} ${dato.fecha.format('EEEE dd/MM/yyyy')}</a></small></h2>
-              <a title="Enlace los trenes del día" href="${createLink(action: 'showTren', params: [trayecto: dato.trayecto.id, fecha: dato.fecha.format('dd/MM/yyyy'), fechas: fechas, nojs: 'true'])}" >
-                Para ver los trenes Renfe ${nombre} desde un equipo antiguo sin javascript pincha aquí
-              </a>
+          <div class="span12 name"><h2><button type="button" class="btn btn-mini btn-info" style="line-height: 10px;" data-toggle="collapse" data-target="#infotren${infoId}" id="buttonCollapse${infoId}"><i class="icon-minus"></i></button> <small><a id="renfe${infoId}" href="${link}" target="_blank">${nombre} ${dato.fecha.format('EEEE dd/MM/yyyy')}</a></small></h2>
           </div>
         </div>
         <div class="row-fluid accordion-group">
@@ -164,10 +161,16 @@
                 $('#infotren${infoId}').on('hidden', function() {
                   $('#buttonCollapse${infoId}').html('<i class="icon-plus"></i>');
                 });
+                $('#infotren${infoId}').on('click', function() {
+                  $('#renfe${infoId}')[0].click();
+                });
               });
             </script>
           </div>
         </div>
+        <a title="Enlace los trenes del día" href="${createLink(action: 'showTren', params: [trayecto: dato.trayecto.id, fecha: dato.fecha.format('dd/MM/yyyy'), fechas: fechas, nojs: 'true'])}" >
+          Para ver los trenes Renfe ${nombre} desde un equipo antiguo sin javascript pincha aquí
+        </a>        
       </div></div>
       </g:each>
     </div></div>
