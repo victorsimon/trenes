@@ -59,11 +59,11 @@ class Estacion {
 	}
 
 	public String toFriendlyUrl() {
-	    nombre.replaceAll(/\(\*\)/, '').trim().replaceAll(/ |\//, '-').toLowerCase()
+	    return nombre.replaceAll(/\(\*\)/, '').trim().replaceAll(/ |\//, '-').toLowerCase()
 	}
 
 	public String toFriendlySQL() {
-	    nombre.replaceAll(/-/, '_').toLowerCase()
+	    return nombre.replaceAll(/-/, '_').trim().toLowerCase()
 	}
 
 	boolean equals (Object other) {

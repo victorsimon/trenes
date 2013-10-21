@@ -35,18 +35,16 @@ class BuscaController {
             return [:]
 
     	def origenes = contenido.estaciones[0]
-        println origenes
         def orUrl = []
         if (contenido.estaciones[0] instanceof Collection) {
             origenes.each {
                 orUrl << it.toFriendlyUrl()
             } 
         } else {
-            orUrl = origenes.toFriendlyUrl()
+            orUrl << origenes.toFriendlyUrl()
         }
 
     	def destinos = contenido.estaciones.size() > 1? contenido.estaciones[1..-1]: Estacion.findAllByPrincipal(true, [max: 3])
-        println destinos
         def desUrl = []
         destinos.each {
             it.each { e -> 
@@ -55,7 +53,7 @@ class BuscaController {
         }
 
         return render(view: 'result', model: 
-            [origenes: orUrl, 
+            [origenes: orUrl[0], 
             destinos: desUrl, 
             fechas: contenido.fechas.date, 
             dow: contenido.fechas.dow, 
@@ -72,8 +70,7 @@ class BuscaController {
         if (Estacion.count() <= 0) {
             renfeService.descargarEstaciones()
         }
-        def origen = new Estacion(nombre: params.origen)
-        def origenes = [Estacion.findByNombreIlike("%${origen.toFriendlySQL()}%")]
+        def origenes = Estacion.findAllByNombreIlike("%${new Estacion(nombre: params.origen).toFriendlySQL()}%") 
 
         def estaciones = params.destinos? params.destinos.tokenize('/') : []
         def destinos = []
