@@ -3,8 +3,8 @@
   <%@page sitemeshPreprocess="false"%>
   <html lang="es" class="no-js">
     <head>
-      <title>Tren ${trenes[0]?.trayecto} salida ${trenes[0]?.salida.format('dd/MM/yyyy HH:mm')} - Treneo</title>
-      <meta name="description" content="Listado de trenes para ${trenes[0]?.trayecto} salida ${trenes[0]?.salida.format('dd/MM/yyyy HH:mm')}">
+      <title>Horario y precios Renfe ${trenes[0]?.trayecto} salida ${trenes[0]?.salida.format('dd/MM/yyyy HH:mm')} - Treneo</title>
+      <meta name="description" content="Listado de horarios y precios para los trenes de renfe ${trenes[0]?.trayecto} salida ${trenes[0]?.salida.format('dd/MM/yyyy HH:mm')}">
       <meta http-equiv="content-type" content="text/html;charset=UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>

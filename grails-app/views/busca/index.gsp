@@ -4,10 +4,10 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Busca Renfe ave alvia a cualquier destino, como madrid, barcelona o sevilla</title>
-    <meta name="description" content="Busca de forma sencilla tu billete de Renfe para todos los trenes y trayectos, como renfe ave madrid barcelona, renfe ave madrid sevilla, etc o cercanias madrid"/>
+    <title>Busca los trenes de renfe, horarios y precios, a cualquier destino - Treneo</title>
+    <meta name="description" content="Busca de forma sencilla tu billete de Renfe para todos los trenes y trayectos, como renfe ave madrid barcelona, renfe ave madrid sevilla, etc o cercanias madrid. Consulta horarios y precios, y accede directamente á su página de compra."/>
+    <link rel="shortcut icon" href="${resource(dir: 'images', file: 'logo-16x16.png')}" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
-    <g:set var="colors" value="['#34a5aa', '#aaaaaa', '#4789aa', '#d3e310']"/>
     <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
     <r:require modules="jquery"/>
     <r:require modules="bootstrap"/>
@@ -25,8 +25,13 @@
       <g:form url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
           <p><input class="input-search" type="text" name="q" id="q" value="${params.q}" size="50" placeholder="Origen, destino (o destinos) y fechas ('${new Date().format('dd/MM/yyyy')}' o 'mañana' o 'agosto' o...)" autocomplete="off"/>
           <br/>
-          <input type="submit" id="lq" class="btn large" value="Buscar" onclick=""/></p>
+          <!--[if lt IE 9]>
+            <p style="margin: -40px auto -15px;"><small style="font-size: 12px;">Origen, destino (o destinos) y fechas ('${new Date().format('dd/MM/yyyy')}' o 'mañana' o 'agosto' o...)</small></p>
+            <br/>
+          <![endif]-->
+          <input type="submit" class="btn large" value="Buscar" onclick=""/></p>
           <p>Un buscador de trenes sencillo y práctico</p>
+          <input id="lq" class="hidden" type="text" value=""/>
       </g:form>
       <p class="meta"> 
         Por <a rel="nofollow" title="Linkedin de Víctor Simón Batanero" href="http://es.linkedin.com/in/victorsimon">Víctor Simón</a> e <a rel="nofollow" title="Linkedin de Isabel Berruezo Aldunate" href="http://es.linkedin.com/in/ixabel">Isabel Berruezo</a>
@@ -116,93 +121,8 @@
     </div>
     <script type="text/javascript">
       $(document).ready( function() {
-        var fonts = ["Sue Ellen Francisco, cursive","Duru Sans, sans-serif","Quicksand, sans-serif","Oleo Script Swash Caps, cursive","Vast Shadow, cursive","Smokum, cursive","Montserrat Alternates, sans-serif","Shojumaru, cursive","Peralta, cursive","Prosto One, cursive","Kavoon, cursive","Bubbler One, sans-serif","Ceviche One, cursive","Ribeye Marrow, cursive"];
-
-        $('.treneo').css('color', '${colors[(new java.util.Random()).nextInt(4)]}');
-        $('.treneo').css('font-family', fonts[${(new java.util.Random()).nextInt(11)}]);
-        /*
-        var ePrincipales = [];
-        var e = [];
-        var fechas = ['2222','3333','4444'];
-        for(var i = 0; i < estaciones.length; i++) {
-          e.push(estaciones[i][0]);
-        }
-        for(var i = 0; i < estacionesPrincipales.length; i++) {
-          ePrincipales.push(estacionesPrincipales[i][0]);
-        }
-
-        var extractor = function(query) {
-          var result = /([^,]+)$/.exec(query);
-          if(result && result[1])
-            return result[1].trim();
-          return '';
-        }
-
-        var updater = function(item) {
-          var pre = item.length >= this.$element.val().length ? 'Desde ': ' hasta ';
-          if (this.$element.val().search('hasta') != -1)
-            pre = ' o hasta ';
-          var txt = $('#lq').attr('value').replace(/[^ ]*$/,'')+pre+item+' ';
-          $('#lq').attr('value', txt);
-          return this.$element.val().replace(/[^ ]*$/,'')+item+', ';
-        }
-
-        var matcher = function (item) {
-          var tquery = extractor(this.query);
-          if(!tquery) return false;
-          return ~item.toLowerCase().indexOf(tquery.toLowerCase());
-        }
-
-        var highlighter = function (item) {
-          var query = extractor(this.query).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
-          return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-            return '<strong>' + match + '</strong>'
-          });
-        }          
-
-        var ta = $('#q').typeahead({
-            source: ePrincipales,
-            minLength: 0,
-            items: 4,
-            updater: updater,
-            matcher: matcher,
-            highlighter: highlighter
-          });
-
-        var setSource = function (source) {
-          var v = $('#q').val();
-          $('#q').data('typeahead').source = source;
-          $('#q').val(v);
-        }
-
-        var setFechas = function() {
-          setSource(fechas);
-        }
-
-        var setPrincipales = function() {
-          setSource(ePrincipales);
-        }
-
-        var setTodas = function() {
-          setSource(e);
-        }
-
-        $('#q').on('keydown', function(e) {
-          if (e.keyCode >= 33 && e.keyCode <= 115) {
-            if (e.keyCode > 31 && (e.keyCode >= 48 && e.keyCode <= 57)) {
-              setFechas();
-            } else {
-              var lastSpace = $(this).val().search(/[^ ]*$/);
-              var actualLength = $(this).val().length;
-              if ((actualLength - lastSpace) < 3) {
-                setPrincipales();
-              } else {
-                setTodas();
-              }
-            }
-          }          
-        });
-        */
+        treneoFontsAndColors();
+        typeahead("${createLink(uri: '/query')}");        
       });
     </script>
     <g:render template="/layouts/analitycstracking"/>

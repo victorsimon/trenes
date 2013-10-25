@@ -2,6 +2,7 @@ package treneo
 //import org.compass.core.engine.SearchEngineQueryParseException
 
 import grails.util.Environment
+import grails.converters.JSON
 
 /**
  * BuscaController
@@ -14,10 +15,8 @@ class BuscaController {
      * Index page with search form and results
      */
     def index() {
-        def fonts = ["'font-family', 'Sue Ellen Francisco, cursive'","'font-family', 'Duru Sans, sans-serif'","'font-family', 'Quicksand, sans-serif'","'font-family', 'Oleo Script Swash Caps, cursive'","'font-family', 'Vast Shadow, cursive'","'font-family', 'Smokum, cursive'","'font-family', 'Montserrat Alternates, sans-serif'","'font-family', 'Shojumaru, cursive'","'font-family', 'Peralta, cursive'","'font-family', 'Prosto One, cursive'","'font-family', 'Kavoon, cursive'","'font-family', 'Bubbler One, sans-serif'","'font-family', 'Ceviche One, cursive'","'font-family', 'Ribeye Marrow, cursive'"]
-
         if (!params.q?.trim()) {
-            return [fonts: fonts]
+            return []
         }
 
         Environment.executeForCurrentEnvironment {
@@ -34,6 +33,7 @@ class BuscaController {
         if (!contenido)
             return [:]
 
+            println contenido
     	def origenes = contenido.estaciones[0]
         def orUrl = []
         if (contenido.estaciones[0] instanceof Collection) {
@@ -57,7 +57,6 @@ class BuscaController {
             destinos: desUrl, 
             fechas: contenido.fechas.date, 
             dow: contenido.fechas.dow, 
-            fonts: fonts,
             nojs: params.nojs])
     }
 
@@ -154,16 +153,40 @@ class BuscaController {
         }
     }
 
+    def query() {
+        if (!params.query) {
+            render [] as JSON
+            return
+        }
+        def result = params.query.find(/([^ ]+)$/)
+
+        def source = Fecha.createCriteria().list { 
+            ilike ("nombre", "%${result}%")
+            projections { property('nombre') } }
+
+		100.times {
+			source << (new Date() + it).format("dd/MM/yyyy")	
+		}
+		
+        source.addAll(Estacion.createCriteria().list { 
+            ilike ("nombre", "%${result}%")
+            projections { property('nombre') } })
+        render source as JSON
+    }
+
     private def interpretar(String frase) {
         def estaciones = []
         def tmpFechas = []
         def palabras = []
 
-        frase = StringDate.convertToDate(frase)
-        palabras = frase.tokenize()
+        frase = StringDate.convertToDate(frase.trim())
+        palabras = frase.tokenize(127 as char)
         palabras.each {
-            if (it.size() < 4)
+            it = it.trim()
+            println it
+            if (it.size() < 4) {
                 return
+            } 
             if (!it.matches(/(?<=^| )(?=[^ ]*\d)[^ ]+/)) { //palabras
                 estaciones << buscaEstacion(it)
             } else { //tiene números
@@ -193,6 +216,8 @@ class BuscaController {
 
     private def buscaEstacion(String word){
         def estaciones = []
+        if (!word.trim())
+            return []
         def e = Estacion.findAllByNombreIlike("%${word.trim()}%", [max: 7])
         if (e) {
             def generico

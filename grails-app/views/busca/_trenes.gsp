@@ -6,7 +6,7 @@
     <link rel="canonical" />
       <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <title>Listado de renfe ${origenes[0]} - ${destinos.join('-')}</title>
+      <title>Horario y precios de renfe ${origenes[0]} - ${destinos.join('-')}</title>
       <meta name="description" content="Listado con los trenes disponibles en renfe para ${origenes} - ${destinos} ave, alvi y talgo. Horarios y precios por categoría."/>
       <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
       <g:set var="colors" value="['#34a5aa', '#aaaaaa', '#4789aa', '#d3e310']"/>

@@ -39,10 +39,12 @@ modules = {
 	}
 
 	'index' {
+		dependsOn	'application'
 		resource url: "css/index.css"	
 	}
 
 	'result' {
+		dependsOn	'application'
 		resource url: "css/result.css"	
 	}
 }

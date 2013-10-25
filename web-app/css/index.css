@@ -11,9 +11,9 @@ h2 {
 p {
   font-family: 'Maven Pro';
   width: 960px;
-  margin: 40px auto;
+  margin: 20px auto;
   color: #999;
-  line-height: 200%;
+  line-height: 150%;
 }
 code {
   background-color: #000;

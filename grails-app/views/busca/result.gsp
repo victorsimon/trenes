@@ -4,10 +4,10 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renfe trenes ave <g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
-    <meta name="description" content="Lista de renfe para los trenes ${params.q}. Trenes de media y larga distancia. Busca trenes alvia, ave, talgo para todos los destinos de renfe: madrid, barcelona, sevilla, valencia, alicante, málaga, etc."/>
+    <title>Información Renfe para los trenes <g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
+    <meta name="description" content="Lista de los trenes de renfe para ${params.q}. Información de horarios y precios. Busca trenes alvia, ave, talgo para todos los destinos de renfe: madrid, barcelona, sevilla, valencia, alicante, málaga, etc."/>
+    <link rel="shortcut icon" href="${resource(dir: 'images', file: 'logo-16x16.png')}" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
-    <g:set var="colors" value="['#34a5aa', '#aaaaaa', '#4789aa', '#d3e310']"/>
     <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
     <script type="text/javascript">
         var focusQueryInput = function() {
@@ -191,10 +191,6 @@
     </iframe>
     <script>
       $(document).ready(function() {
-        var fonts = ["Sue Ellen Francisco, cursive","Duru Sans, sans-serif","Quicksand, sans-serif","Oleo Script Swash Caps, cursive","Vast Shadow, cursive","Smokum, cursive","Montserrat Alternates, sans-serif","Shojumaru, cursive","Peralta, cursive","Prosto One, cursive","Kavoon, cursive","Bubbler One, sans-serif","Ceviche One, cursive","Ribeye Marrow, cursive"];
-
-        $('.treneo').css('color', '${colors[(new java.util.Random()).nextInt(4)]}');
-        $('.treneo').css('font-family', fonts[${(new java.util.Random()).nextInt(11)}]);
         $('#formTrenes').submit();
         $('.btn-clase').on('click', function() {
           var clase = $(this).text();
@@ -263,71 +259,13 @@
     </script>
     <!-- Included Javascript files and other resources -->
     <script type="text/javascript">
-/*    
-      var ePrincipales = [];
-      var e = [];
       $(document).ready( function() {
-        for(var i = 0; i < estaciones.length; i++) {
-          e.push(estaciones[i][0]);
-        }
-        for(var i = 0; i < estacionesPrincipales.length; i++) {
-          ePrincipales.push(estacionesPrincipales[i][0]);
-        }
-
-        $('#q').on('keydown', function(e) {
-        });
-
-        var extractor = function(query) {
-          var result = /([^,]+)$/.exec(query);
-          if(result && result[1])
-            return result[1].trim();
-          return '';
-        }
-
-        var updater = function(item) {
-          var pre = item.length >= this.$element.val().length ? 'Desde ': ' hasta ';
-          if (this.$element.val().search('hasta') != -1)
-            pre = ' o hasta ';
-          var txt = $('#lq').attr('value').replace(/[^ ]*$/,'')+pre+item+' ';
-          $('#lq').attr('value', txt);
-          return this.$element.val().replace(/[^ ]*$/,'')+item+', ';
-        }
-
-        var matcher = function (item) {
-          var tquery = extractor(this.query);
-          if(!tquery) return false;
-          return ~item.toLowerCase().indexOf(tquery.toLowerCase());
-        }
-
-        var highlighter = function (item) {
-          var query = extractor(this.query).replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
-          return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-            return '<strong>' + match + '</strong>'
-          });
-        }          
-        $('#q').typeahead({
-          source: ePrincipales,
-          minLength: 0,
-          items: 1,
-          updater: updater,
-          matcher: matcher,
-          highlighter: highlighter          
-        });
-
-        $('#q').typeahead({
-          source: e,
-          minLength: 3,
-          items: 1,
-          updater: updater,
-          matcher: matcher,
-          highlighter: highlighter          
-        });
-
-        focusQueryInput();
+        treneoFontsAndColors();
+        typeahead("${createLink(uri: '/query')}");        
       });
-*/
     </script>
     <g:render template="/layouts/analitycstracking"/>
+    <!-- Included Javascript files and other resources -->
     <r:layoutResources />
   </body>
 </html>
