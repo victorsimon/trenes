@@ -30,6 +30,15 @@
             <br/>
           <![endif]-->
           <input type="submit" class="btn large" value="Buscar" onclick=""/></p>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Horizontal treneo -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-8089105942108480"
+     data-ad-slot="7690702097"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
           <p>Un buscador de trenes sencillo y práctico</p>
           <input id="lq" class="hidden" type="text" value=""/>
       </g:form>
