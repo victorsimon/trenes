@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Información Renfe para los trenes <g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
+    <title>Horarios Renfe para los trenes <g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
     <meta name="description" content="Lista de los trenes de renfe para ${params.q}. Información de horarios y precios. Busca trenes alvia, ave, talgo para todos los destinos de renfe: madrid, barcelona, sevilla, valencia, alicante, málaga, etc."/>
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'logo-16x16.png')}" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>

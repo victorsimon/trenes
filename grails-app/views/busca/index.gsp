@@ -4,7 +4,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Busca los trenes de renfe, horarios y precios, a cualquier destino - Treneo</title>
+    <title>Horarios y precios de Renfe, a cualquier destino - Treneo</title>
     <meta name="description" content="Busca de forma sencilla tu billete de Renfe para todos los trenes y trayectos, como renfe ave madrid barcelona, renfe ave madrid sevilla, etc o cercanias madrid. Consulta horarios y precios, y accede directamente á su página de compra."/>
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'logo-16x16.png')}" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
@@ -20,6 +20,15 @@
     </script>
   </head>
   <body onload="focusQueryInput();">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Horizontal treneo -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-8089105942108480"
+     data-ad-slot="7690702097"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <div class="block block-search">
       <h1 class="treneo">Treneo</h1>
       <g:form url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
@@ -30,15 +39,6 @@
             <br/>
           <![endif]-->
           <input type="submit" class="btn large" value="Buscar" onclick=""/></p>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Horizontal treneo -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:728px;height:90px"
-     data-ad-client="ca-pub-8089105942108480"
-     data-ad-slot="7690702097"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
           <p>Un buscador de trenes sencillo y práctico</p>
           <input id="lq" class="hidden" type="text" value=""/>
       </g:form>
@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="block block-somos">
-      <h2>somos un buscador de trenes</h2>
+      <h2>horarios de renfe</h2>
       <p>
       Treneo busca en <spam class="renfe">Renfe</spam> la información de sus trenes: ave, alvia, altaria, etc. y de todas las estaciones, ya sean grandes: madrid, barcelona, sevilla, málaga, zaragoza, pamplona... o pequeñas: alcalá de xiver, barbera del valles...
       </p>
@@ -97,7 +97,7 @@
           <g:set var="destinos" value="${['barcelona','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Horarios Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}">Horarios <spam class="renfe">Renfe</spam> ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>
@@ -106,7 +106,7 @@
           <g:set var="destinos" value="${['madrid','valencia','sevilla','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Horarios Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}">Horarios <spam class="renfe">Renfe</spam> ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>
@@ -115,7 +115,7 @@
           <g:set var="destinos" value="${['madrid','barcelona','valencia','málaga','bilbao','alicante','pamplona','zaragoza']}"/>
           <ul>
             <g:each var="destino" in="${destinos}">
-              <li><small><a title="Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}"><spam class="renfe">Renfe</spam> ave alvia ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
+              <li><small><a title="Horarios Renfe ave ${origen.capitalize()} ${destino.capitalize()} próximos tres días" href="${createLink(uri:'/renfe/' + origen + '/' + destino)}">Horarios <spam class="renfe">Renfe</spam> ${origen.capitalize()} ${destino.capitalize()}</a></small></li>
             </g:each>
           </ul>
         </div>

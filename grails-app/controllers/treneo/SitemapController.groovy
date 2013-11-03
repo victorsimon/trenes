@@ -27,6 +27,7 @@ class SitemapController {
 	                priority(0.8)
 	            }
 
+	            /*
 	            def e1 = Estacion.findAllPrincipal(true)
 	            def e2 = Estacion.findAllPrincipal(true)
 	            println e1.size()
@@ -42,6 +43,7 @@ class SitemapController {
 			            }
 	            	}
 	            }
+	            */
 	        }
         }
     }
