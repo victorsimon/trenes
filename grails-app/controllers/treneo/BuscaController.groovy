@@ -32,8 +32,7 @@ class BuscaController {
         def contenido = interpretar(params.q)
         if (!contenido)
             return [:]
-
-            println contenido
+        
     	def origenes = contenido.estaciones[0]
         def orUrl = []
         if (contenido.estaciones[0] instanceof Collection) {
@@ -60,8 +59,7 @@ class BuscaController {
             nojs: params.nojs])
     }
 
-    def renfe() {
-        println params
+    def renfe() {        
         if (!params.origen) {
             redirect(action: 'index')
             return
@@ -69,15 +67,20 @@ class BuscaController {
         if (Estacion.count() <= 0) {
             renfeService.descargarEstaciones()
         }
-        def origenes = Estacion.findAllByNombreIlike("%${new Estacion(nombre: params.origen).toFriendlySQL()}%") 
-
+        def origenes = []
+        /*
+        def exacto = Estacion.findByNombreIlike("${new Estacion(nombre: params.origen).toFriendlySQL()}")
+        if (exacto)
+            origenes << exacto
+        else
+            origenes.addAll(Estacion.findAllByNombreIlike("%${new Estacion(nombre: params.origen).toFriendlySQL()}%"))
+        */
+        origenes = buscaEstacion("${new Estacion(nombre: params.origen).toFriendlySQL()}")
         def estaciones = params.destinos? params.destinos.tokenize('/') : []
         def destinos = []
         estaciones.each { 
             destinos << Estacion.findByNombreIlike("%${new Estacion(nombre: it).toFriendlySQL()}%")
-        }
-        println origenes
-        println destinos
+        }                
 
         def fechas = params.fechas?.stringToList { new Date().parse('dd/MM/yyyy',it).clearTime() }?:[]
 
@@ -171,7 +174,12 @@ class BuscaController {
         source.addAll(Estacion.createCriteria().list { 
             ilike ("nombre", "%${result}%")
             projections { property('nombre') } })
-        render source as JSON
+
+        def sentence = []
+        source.each {
+            sentence << params.query - ~/([^ ]+)$/ + it
+        }
+        render sentence as JSON
     }
 
     private def interpretar(String frase) {
@@ -180,26 +188,18 @@ class BuscaController {
         def palabras = []
 
         frase = StringDate.convertToDate(frase.trim())
-        palabras = frase.tokenize(127 as char)
-        palabras.each {
-            it = it.trim()
-            println it
-            if (it.size() < 4) {
-                return
-            } 
-            if (!it.matches(/(?<=^| )(?=[^ ]*\d)[^ ]+/)) { //palabras
-                estaciones << buscaEstacion(it)
-            } else { //tiene números
-                it = it.replace('-','/')
-                try {
-                    tmpFechas << new Date().parse('d/M/y', it)
-                } catch(e) {
-                    flash.message = "$it no parece una fecha válida. Por ejemplo, para introducir como fecha de busqueda el día de hoy, utilice ${new Date().format('d/M/y')}"
+        palabras = frase.tokenize()
+        for(int i = 0; i < palabras.size; i++) {
+            def fraseTmp = palabras[i..-1]
+            def n = fraseTmp.size - 1
+            while (n >= 0) {                                
+                if (interpretaPalabras(fraseTmp[0..n].join(' ').trim(), estaciones, tmpFechas)) {
+                    for(int c = i; c <= i+n; c++) {                        
+                        palabras[c] = ""
+                    }
+                    n = -1
                 }
-                if (flash.message) {
-                    println flash.message
-                    return [:]
-                }
+                n--
             }
         }
         
@@ -214,11 +214,43 @@ class BuscaController {
         [estaciones: estaciones, fechas: fechas]
     }
 
-    private def buscaEstacion(String word){
+    private Boolean interpretaPalabras(String word, estaciones, fechas){
+        word = word.trim()
+        if (word.size() < 4) {
+            return false
+        } 
+        if (!word.matches(/(?<=^| )(?=[^ ]*\d)[^ ]+/)) { //palabras
+            def tmp = buscaEstacion(word)
+            if (tmp) {
+                estaciones.addAll(tmp)                 
+                return true
+            }
+        } else { //tiene números
+            word = word.replace('-','/')
+            try {
+                fechas << new Date().parse('d/M/y', word)                
+            } catch(e) {
+                flash.message = "$word no parece una fecha válida. Por ejemplo, para introducir como fecha de busqueda el día de hoy, utilice ${new Date().format('d/M/y')}"
+            }
+            if (flash.message) {                
+                return false
+            } else {
+                return true
+            }
+        }
+        return false
+    }
+
+    private def buscaEstacion(String word){        
         def estaciones = []
         if (!word.trim())
             return []
-        def e = Estacion.findAllByNombreIlike("%${word.trim()}%", [max: 7])
+        def exact = Estacion.findByNombreIlike("${word.trim()}")
+        if (exact) {
+            estaciones << exact
+            return estaciones
+        }    
+        def e = Estacion.findAllByNombreIlike("%${word.replaceAll(' ','%').trim()}%", [max: 7])
         if (e) {
             def generico
             e.each {
@@ -234,18 +266,24 @@ class BuscaController {
         }
         else {
             def min = 100
+            def l = 0
             Estacion.list().each { estacion ->
-                estacion.nombre.tokenize().each { nom ->
-                    def d = StringMetric.distance(word, nom)
-                    if (d < min) {
-                        e = estacion
-                        min = d
+                if (estacion.nombre.size() >= word.size()){
+                    estacion.nombre.tokenize('/').each { nom ->
+                        def d = StringMetric.distance(word, nom)
+                        if (d < min) {
+                            e = estacion
+                            min = d
+                            l = nom.size()
+                        }
                     }
                 }
             }
-            
-            estaciones.addAll(e)
+            if (min < 5) {                
+                estaciones.addAll(e)
+            }
         }
+        
         return estaciones
     }
 }

@@ -2,7 +2,7 @@ package treneo
 
 class StringDate {
 
-	def static char delimiter = 127 as char
+	def static char delimiter = ' '
 
 	def static String convertToDate(String txt) {
 		txt = " " + txt.toLowerCase() + " "

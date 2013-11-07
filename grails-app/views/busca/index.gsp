@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Horarios y precios de Renfe, a cualquier destino - Treneo</title>
     <meta name="description" content="Busca de forma sencilla tu billete de Renfe para todos los trenes y trayectos, como renfe ave madrid barcelona, renfe ave madrid sevilla, etc o cercanias madrid. Consulta horarios y precios, y accede directamente á su página de compra."/>
+
+    <meta property="og:title" content="Horarios y precios de Renfe, a cualquier destino - Treneo">
+    <meta property="og:description" content="Busca de forma sencilla tu billete de Renfe para todos los trenes y trayectos, como renfe ave madrid barcelona, renfe ave madrid sevilla, etc o cercanias madrid. Consulta horarios y precios, y accede directamente á su página de compra.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://www.treneo.es/">
+    <meta property="og:image" content="http://www.treneo.es/${resource(dir: 'images', file: 'logo-32x32.png')}">
+    <meta property="og:site_name" content="Treneo">
+    <meta property="fb:admins" content="10150538136194100,10200814374700791">
+
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'logo-16x16.png')}" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
@@ -45,7 +54,8 @@
       <p class="meta"> 
         Por <a rel="nofollow" title="Linkedin de Víctor Simón Batanero" href="http://es.linkedin.com/in/victorsimon">Víctor Simón</a> e <a rel="nofollow" title="Linkedin de Isabel Berruezo Aldunate" href="http://es.linkedin.com/in/ixabel">Isabel Berruezo</a>
         <br/>
-        <spam class="renfe">Renfe</spam> puede que no, pero ¡treneo.es te necesita!
+        <br/>
+        <p class="meta"><spam class="renfe">Renfe</spam> puede que no, pero ¡treneo.es te necesita!</p>
       </p>
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
         <input type="hidden" name="cmd" value="_s-xclick">
@@ -53,6 +63,14 @@
         <input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal. La forma rápida y segura de pagar en Internet.">
         <img alt="Dona a treneo.es busca trenes en renfe. Ave, alvia, madrid, valencia, renfecercanias madrid." border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
       </form>
+          <div>
+            <div class="fb-like" data-href="https://www.facebook.com/treneo" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="true"></div>
+            <!-- Inserta esta etiqueta donde quieras que aparezca Botón +1. -->
+            <div style="display: inline-block; margin-left: 30px;">
+              <div class="g-plusone" data-href="https://plus.google.com/+TreneoEs" data-size="medium"></div>
+            </div>
+            <div class="g-ytsubscribe" data-channel="TreneoEs" data-layout="default"></div>
+          </div>
       <div class="down-arrow">
         <h3 class="meta">descubre más</h3>
         <img alt="Lee más sobre treneo.es, y busca tus trenes en Rrenfe para renfe ave madrid barcelona sevilla valencia cercanias madrid." src="${resource(dir: 'images', file: 'down.jpg')}"/>
@@ -125,7 +143,7 @@
       <p class="meta">
         Ponte en contacto con nosotros y siguenos
         <br/>
-        <a title="Email de contacto" rel="nofollow" href="">contacto@treneo.es</a>
+        <a title="Email de contacto" rel="nofollow" href="mailto:contacto@treneo.es">contacto@treneo.es</a>
       </p>
     </div>
     <script type="text/javascript">
@@ -137,5 +155,26 @@
     <g:render template="/layouts/analitycstracking"/>
     <!-- Included Javascript files and other resources -->
     <r:layoutResources />
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- Inserta esta etiqueta después de la última etiqueta de Botón +1. -->
+    <script type="text/javascript">
+      window.___gcfg = {lang: 'es'};
+
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
+    </script>
+
+    <script src="https://apis.google.com/js/plusone.js"></script>
+
   </body>
 </html>

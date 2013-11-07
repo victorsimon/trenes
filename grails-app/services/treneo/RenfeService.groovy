@@ -20,7 +20,7 @@ class RenfeService {
 
     def descargarEstaciones() {
     	new EstadoTarea(tarea: "DescargarEstaciones", info: "Inicio ${new Date().format('dd/MM/yyyy HH:mm.s')}").save(flush: true)
-		def source = "http://www.renfe.com/js/estaciones.js".toURL().content.text.replaceAll('var', 'def').tokenize(';')
+		def source = "http://www.renfe.com/js/estaciones.js".toURL().content.text.replaceAll('var est', 'def est').tokenize(';')
 		def todas = []
 		def principales = []
 		log.info "Estaciones descargadas. Procesando todas."

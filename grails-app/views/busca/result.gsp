@@ -4,8 +4,17 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horarios Renfe para los trenes <g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>Treneo</title>
-    <meta name="description" content="Lista de los trenes de renfe para ${params.q}. Información de horarios y precios. Busca trenes alvia, ave, talgo para todos los destinos de renfe: madrid, barcelona, sevilla, valencia, alicante, málaga, etc."/>
+    <title>Horarios Renfe para los trenes ${origenes} - ${destinos.join(' - ')} ${fechas.join(' ')} Treneo</title>
+    <meta name="description" content="Lista de los trenes de renfe para ${origenes} - ${destinos.join(' - ')} ${fechas.join(' ')}. Información de horarios y precios. Busca trenes alvia, ave, talgo para todos los destinos de renfe: madrid, barcelona, sevilla, valencia, alicante, málaga, etc."/>
+
+    <meta property="og:title" content="Horarios Renfe para los trenes ${origenes} - ${destinos.join(' - ')} ${fechas.join(' ')} Treneo">
+    <meta property="og:description" content="Lista de los trenes de renfe para ${origenes} - ${destinos.join(' - ')} ${fechas.join(' ')}. Información de horarios y precios. Busca trenes alvia, ave, talgo para todos los destinos de renfe: madrid, barcelona, sevilla, valencia, alicante, málaga, etc.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://www.treneo.es/${request.queryString}">
+    <meta property="og:image" content="http://www.treneo.es/${resource(dir: 'images', file: 'logo-32x32.png')}">
+    <meta property="og:site_name" content="Treneo">
+    <meta property="fb:admins" content="10150538136194100,10200814374700791">
+
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'logo-16x16.png')}" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>

@@ -25,7 +25,8 @@ var typeahead = function(url) {
     }
 
     var updater = function(item) {
-      return this.$element.val().replace(/[^ ]*$/,'')+item+String.fromCharCode(127)+' ';
+      //return this.$element.val().replace(/[^ ]*$/,'')+item+' ';
+      return item + ' ';
     }
 
     var matcher = function (item) {
@@ -60,8 +61,4 @@ var typeahead = function(url) {
         highlighter: highlighter
       });
 
-    $('#q').on('keydown', function(e) {
-      if (e.keyCode == 32)
-        this.value = this.value + String.fromCharCode(127)
-    });
 }
