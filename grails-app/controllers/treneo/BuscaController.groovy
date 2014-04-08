@@ -18,6 +18,12 @@ class BuscaController {
         if (!params.q?.trim()) {
             return []
         }
+    }
+
+    def result() {
+        if (!params.q?.trim()) {
+            return redirect(view: "index")
+        }
 
         Environment.executeForCurrentEnvironment {
             production {
@@ -163,9 +169,18 @@ class BuscaController {
         }
         def result = params.query.find(/([^ ]+)$/)
 
-        def source = Fecha.createCriteria().list { 
-            ilike ("nombre", "%${result}%")
-            projections { property('nombre') } }
+        def source = []
+        def ws = params.query.tokenize()
+        for (int i = 0; i < ws.size(); i++) {
+            println "%${ws[i..-1].join(' ')}%"
+            def e = Fecha.createCriteria().list { 
+                ilike ("nombre", "%${ws[i..-1].join(' ')}%")
+                projections { property('nombre') } }
+            if (e) {
+                source.addAll(e)
+                i = ws.size()
+            }
+        }
 
 		100.times {
 			source << (new Date() + it).format("dd/MM/yyyy")	

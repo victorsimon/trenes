@@ -17,12 +17,7 @@
 
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'logo-16x16.png')}" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
-    <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
-    <script type="text/javascript">
-        var focusQueryInput = function() {
-            document.getElementById("q").focus();
-        }
-    </script>
+    <link rel="canonical" href="${createLink(uri: '/renfe/' + origenes + '/' + destinos.join('/'))}?fechas=${fechas}"/>
     <r:require modules="jquery"/>
     <r:require modules="bootstrap"/>
     <r:require modules="result"/>
@@ -41,7 +36,7 @@
             </a>
           </div>
           <div class="row-fluid">
-            <g:form class="form-inline" url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
+            <g:form class="form-inline" url='[controller: "busca", action: "result"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
               <div class="span12">
                 <div class="row-fluid">
                   <div class="span10">
@@ -200,6 +195,8 @@
     </iframe>
     <script>
       $(document).ready(function() {
+        $("#q").focus();
+
         $('#formTrenes').submit();
         $('.btn-clase').on('click', function() {
           var clase = $(this).text();

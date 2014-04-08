@@ -17,16 +17,10 @@
 
     <link rel="shortcut icon" href="${resource(dir: 'images', file: 'logo-16x16.png')}" type="image/x-icon">
     <link href='http://fonts.googleapis.com/css?family=Sue+Ellen+Francisco|Duru+Sans|Quicksand|Oleo+Script+Swash+Caps|Vast+Shadow|Smokum|Montserrat+Alternates|Shojumaru|Peralta|Prosto+One|Special+Elite|Maven+Pro' rel='stylesheet' type='text/css'>
-    <script type="text/javascript" src="http://www.renfe.com/js/estaciones.js" ></script>
     <r:require modules="jquery"/>
     <r:require modules="bootstrap"/>
     <r:require modules="index"/>
     <r:layoutResources />
-    <script type="text/javascript">
-        var focusQueryInput = function() {
-            document.getElementById("q").focus();
-        }
-    </script>
   </head>
   <body onload="focusQueryInput();">
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -40,7 +34,7 @@
 </script>
     <div class="block block-search">
       <h1 class="treneo">Treneo</h1>
-      <g:form url='[controller: "busca", action: "index"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
+      <g:form url='[controller: "busca", action: "result"]' id="searchableForm" name="searchableForm" method="get" accept-charset="UTF-8">
           <p><input class="input-search" type="text" name="q" id="q" value="${params.q}" size="50" placeholder="Origen, destino (o destinos) y fechas ('${new Date().format('dd/MM/yyyy')}' o 'mañana' o 'agosto' o...)" autocomplete="off"/>
           <br/>
           <!--[if lt IE 9]>
@@ -145,9 +139,12 @@
         <br/>
         <a title="Email de contacto" rel="nofollow" href="mailto:contacto@treneo.es">contacto@treneo.es</a>
       </p>
+      <!-- Inserta esta etiqueta donde quieras que aparezca widget. -->
+      <div class="g-page" data-width="273" data-href="//plus.google.com/105732217520868933635" data-layout="landscape" data-rel="publisher"></div>
     </div>
     <script type="text/javascript">
       $(document).ready( function() {
+        $("#q").focus();
         treneoFontsAndColors();
         typeahead("${createLink(uri: '/query')}");        
       });
@@ -175,6 +172,16 @@
     </script>
 
     <script src="https://apis.google.com/js/plusone.js"></script>
+    <!-- Inserta esta etiqueta después de la última etiqueta de widget. -->
+    <script type="text/javascript">
+      window.___gcfg = {lang: 'es'};
+
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/platform.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
+    </script>
 
   </body>
 </html>

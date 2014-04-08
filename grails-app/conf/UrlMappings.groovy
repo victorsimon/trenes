@@ -25,6 +25,11 @@ class UrlMappings {
 			controller	= 'busca'
 			action = 'index'
         }
+        "/result" 
+        {
+        	controller = "busca"
+        	action = "result"
+        }
         "/query"	{
 			controller	= 'busca'
 			action = 'query'
